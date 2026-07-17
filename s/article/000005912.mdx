@@ -1,0 +1,127 @@
+---
+title: "Troubleshoot SSO with SAML in Domo"
+---
+
+### Intro
+
+SAML (Security Assertion Markup Language) is an XML-based protocol commonly used for enterprise Single Sign-On (SSO). Domo supports **SAML 2.0** and requires **matching configurations** between Domo (Service Provider, SP) and the Identity Provider (IdP), including:
+
+- Entity IDs
+- Certificates
+- SSO endpoint URLs
+- User attribute mappings
+
+This article covers troubleshooting SAML-based Single Sign-On (SSO) in Domo. It explains how to verify configuration settings between Domo (SP) and your Identity Provider (IdP), including URLs, certificates, Entity IDs, and user attribute mappings.
+
+Follow the steps outlined below to diagnose login issues, check SAML assertions, confirm IdP permissions, address time synchronization, and resolve common errors, ensuring smooth SSO access for users.
+
+<Warning>**Important:** SAML requests initiate the login process, and user attributes are sent in the SAML responses. Even small configuration mismatches can cause sign-in failures.</Warning>
+
+---
+
+### Quick Troubleshooting Checklist
+
+1. Verify Domo SSO URL and match Entity IDs on both Domo and IdP.
+2. Confirm certificates match and check for signature errors.
+3. Ensure required user attributes are mapped and sent in SAML responses.
+4. Check IdP permissions and settings, including signed Auth requests.
+5. Verify Mixed-Mode Sign-In if users report missing sign-in buttons.
+6. Synchronize server and IdP clocks to prevent timestamp errors.
+7. Review error pages and troubleshoot based on symptoms (URL, certificates, attributes, time).
+
+### Key Troubleshooting Steps
+
+Follow these steps to troubleshoot SSO with SAML in Domo.
+
+# 1. Verify URLs and Entity IDs
+
+1. Confirm the correct **Domo SSO URL** is in use.
+2. Validate that the **IdP’s Entity ID** and **Domo’s SP Entity ID** match the expected values.
+3. Check that SAML endpoint URLs are correctly configured on both the IdP and Domo.
+
+# 2. Certificates and Signature Validation
+
+1. Ensure the certificate uploaded in Domo matches the one used for signing in the IdP.
+2. Look for errors such as **“Invalid Assertion”** or **“Signature Validation Failed,”** which indicate certificate or signing mismatches.
+3. Use SAML traffic inspection tools to analyze requests and responses. For more information, see **“Troubleshoot Single Sign-On Using SAML.”**
+
+# 3. User Attribute Mapping
+
+1. Confirm required user attributes (for example, email) are correctly mapped and sent in the SAML response.
+2. Validate that the user is invited to Domo if **“Only invited people can access”** is enabled.
+
+**Understanding SAML Assertions and Attributes**
+
+Check these key elements in the decoded SAML response:
+
+| **Element** | **What to Check** |
+| --- | --- |
+| `<Issuer>` | Should match the configured IdP Entity ID |
+| `<ds:X509Certificate>` | Must match the certificate uploaded in both Domo and IdP |
+| `<saml2:AttributeStatement>` | Contains user attributes, each in an `<Attribute Name=...>` element |
+
+**Example Attributes**
+
+- `email:` User's email address (used as a unique identifier)
+- `name:` User's display name
+- `groups:` User’s group membership (can include multiple values)
+
+Missing or incorrect attributes often cause login failures or incorrect user provisioning.
+
+# 4. IdP Permissions and Settings
+
+1. Confirm that the user has permission to access Domo within the IdP configuration.
+2. Check IdP settings for **signed Auth requests**, if required.
+
+# 5. Mixed-Mode Sign-In Feature
+
+1. If users report **“No Sign-In Button,”** verify whether **Mixed-Mode Sign-In** is enabled.  
+   This behavior is expected for external systems that embed SSO, while still displaying the normal login page for regular users.
+
+# 6. Time Synchronization
+
+1. Timestamp-related errors (for example, **“SAML Assertion is not valid until timestamp”**) may indicate clock drift.
+2. Ensure that both the IdP and Domo server clocks are synchronized.
+
+# Common Error Pages and Causes
+
+| **Issue** | **Symptom** | **Fix / Check** |
+| --- | --- | --- |
+| No Sign-In Button | Unable to start SSO login | Verify the correct URL; check Mixed-Mode Sign-In |
+| Domo-branded error page | Redirect URL, certificate issues, or missing email/user | Confirm certificate, correct email attribute mapping, and invite user status |
+| Non-Domo-branded error page | Endpoint/Entity ID mismatch, missing signatures | Validate SSO Endpoint URLs, Entity IDs, and signed requests |
+| “Assertion failed validation” | Possible time synchronization error | Synchronize server and SAML time settings |
+| Password expiration dialogs on SSO users (post-update) | Unwanted password expiry notifications | Ensure **“Enable password expiration”** logic is correct (fixed in recent release) |
+| “You don’t have permission.” | Misconfiguration in SSO settings | Unflag **“Sign authentication request”** if incorrectly applied |
+
+### Additional Recommendations
+
+- Confirm the user’s attempt URL, browser, network environment, and IdP type. Domo supports major IdPs, but custom providers may require additional steps.
+- Collect detailed error messages and screenshots from users.
+- Review any recent changes on the IdP side, including certificate rotations or policy updates.
+- Test logins via the **Domo SSO URL** before broad rollouts.
+- Use mixed-mode authentication during rollouts to allow both SSO and direct login if all users are locked out.
+- Employ dedicated test users to isolate issues.
+- Validate that certificates are current and not expired.
+
+### Specific Concerns Related to SSO
+
+# SSO Not Applied to Child Instance During Template Setup
+
+- **Problem:** SSO settings did not sync correctly to a child instance during template-based auto-setup. OIDC appeared to be enabled but unconfigured; SAML was off and intended to be configured, but it was not applied.
+- **Root Cause:** Assigning the template alone does not fully synchronize all settings; only **applying** triggers ensures that all configurations, including SSO, are fully synchronized.
+- **Resolution:** Actively apply the instance template in the UI to sync all SSO settings properly. See **Instance Template – Apply a Template** for detailed steps.
+
+<Note>**Note:** Applying the template enables/configures SAML only; it does not disable previously enabled OIDC.</Note>
+
+# Unexpected Password Expiration Dialog for SSO Users
+
+- **Problem:** Users with SSO enabled see **“Your password is expiring soon”** despite not using direct sign-on.
+- **Cause:** Occurs if **“Enable password expiration”** is checked and users were created before the expiration period; logic was changed in recent updates.
+- **Resolution:** Only direct sign-on users and admins now receive password expiry notifications.
+
+# Login Permission Error in Domo
+
+- **Error:** *“Whoops! You don't have permission to access Domo... SAML Error: An error occurred…”*
+- **Cause:** Incorrect SSO setting applied by a user.
+- **Resolution:** Uncheck **“Sign authentication request”** to restore expected SSO functionality.

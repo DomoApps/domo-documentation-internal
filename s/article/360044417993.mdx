@@ -1,0 +1,149 @@
+---
+title: "L3 Connector Team Requests"
+---
+
+### Intro
+
+After an L1 Advisor has completed the basic troubleshooting of a connector-related issue, if the customer needs more information or has questions, your next step should be to engage with the Connector L3 team.
+
+---
+
+### When to Involve the Connector L3 Team
+
+The Connector L3 team can help in the following situations:
+
+- API call requests
+- Connector feasibility checks
+- Determine if a field is available in a report
+- API documentation review
+- JSON No Code connector review
+- Basic Workbench error reviews
+- File Upload and DataSet via Email cases
+  - 
+<Note>**Note:** The .xlsx, .csv, .txt, or .eml file will be required to investigate
+- Writeback connector errors
+  - **Note:** They will not be able to run the DataSet in troubleshooting due to the potential of overwriting the customer's production data.</Note>
+
+L1 Advisors should not send the following issues to the L3 team:
+
+- Writeback connector issues where the DataSet must have a DataSet update run
+- On-premise configurations (Database connectors)
+- Federated DataSets or Cloud Amplifier
+- Enable Instagram Business Connector requests; these follow a different process. Begin by reading about the [Instagram Business Connector](/s/article/360042929754) in the Knowledge Base.
+
+### Create JIRA Story Ticket
+
+When engaging with the L3 team, the L1 Advisor should retain ownership over the Salesforce case. Create a **Story** JIRA ticket for the L3 team.
+
+#### Fill out the following JIRA ticket fields:
+
+- Project: Domo (DOMO)
+- Issue Type: Story
+- Summary: <*connector name*> | <*request type*>
+- Priority:
+  - P3: Default priority (used for most cases)
+  - P2: Escalated or High cases; used to prioritize work on these cases
+- Components: Connectors
+- Assignee: Tejmani Singh
+- Squad: Support
+- Description (see [templates](#description_templates) below)
+- Attachment: Include files for File Upload and DataSet via Email cases or Workbench-related questions
+- Environment: Prod number of the instance
+- Connector ID: Provide the connector ID based on the customer DataSet; this should have been obtained when cloning the connector for initial testing
+
+# Description Templates
+
+#### API Call Requests
+
+Please obtain the API call for the customer DataSet below. This is being requested as the customer is (seeing an error, seeing discrepancies in data, etc.).
+
+- Domain URL:
+- Admin Prod customer name:
+- DataSet URL(s):
+- Error state or Import state:
+
+—
+
+#### Connector Feasibility Checks
+
+Please review the feasibility of implementing what the customer is requesting.
+
+"They would like for the <*existing connector*> to include <*insert request here*>." If that is not possible within the current connector framework, would it be possible within the JSON No Code or a new connector?
+
+- Domain URL:
+- Admin Prod customer name:
+- Existing DataSet URL:
+- Import state:
+- (If available) API documentation link:
+
+—
+
+#### Determine Report Field Availability
+
+Please review if <*field name*> is available in any of the connector's existing reports.
+
+- Domain URL:
+- Admin Prod customer name:
+- Existing DataSet URL:
+- Import state:
+- (If available) API documentation link:
+
+—
+
+#### API Documentation Review
+
+Please review the API documentation for <*connector name*>. The customer wants to determine if it's possible to <*insert request here*>. If that is not possible within the current connector framework, would it be possible within the JSON No Code or a new connector?
+
+- Domain URL:
+- Admin Prod customer name:
+- Existing DataSet URL:
+- Import state:
+- (If available) API documentation link:
+
+—
+
+#### JSON No Code Connector Review
+
+Please review the customer's JSON No Code DataSet below. This is being requested as the customer is (seeing an error, seeing discrepancies in data, etc.). Can the issue they are experiencing be corrected by a different configuration or can they use a different connector to have their request work?
+
+- Domain URL:
+- Admin Prod customer name:
+- DataSet URL(s):
+- Error state or Import state:
+
+—
+
+#### Basic Workbench Error Reviews
+
+Please review the customer's Workbench logs to determine if this issue is caused by a configuration issue or if we need the Workbench engineering team to review it further.
+
+- Domain URL:
+- Admin Prod customer name:
+- DataSet URL(s):
+- Error state or Import state:
+
+\*Please attach Workbench logs.
+
+—
+
+#### File Upload and DataSet Via Email Cases
+
+Please review the customer DataSets below. This is being requested as the customer is (seeing an error, seeing discrepancies in data, etc.).
+
+- Domain URL:
+- Admin Prod customer name:
+- DataSet URL(s):
+- Error state or Import state:
+
+\*Attach the appropriate .xlsx, .csv, .txt, or .eml file.
+
+—
+
+#### Writeback Connector Errors
+
+Please contain the API call for the customer DataSet below. This is being requested as the customer is (seeing an error, seeing discrepancies in data, etc.) with their <*connector name*> writeback connector.
+
+- Domain URL:
+- Admin Prod customer name:
+- DataSet URL(s):
+- Error state or Import state:

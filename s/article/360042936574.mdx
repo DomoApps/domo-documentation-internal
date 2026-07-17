@@ -1,0 +1,74 @@
+---
+title: "Recursive Webforms V.1"
+---
+
+<Warning>**Important:** This topic is for INTERNAL USE ONLY. Do NOT share any of the content in this page with customers!</Warning>
+
+## When would I want to use Recursive Webforms?
+
+Webforms are a great tool that allow Domo users to create and update DataSets right within the Domo platform. However, there are occasions when it would be helpful to be able to do transformations on that data using DataFlows, and then continue to manually update the results via Webform. One of the most common examples of this is a dynamic lookup table.
+
+For example, say the customer wants to map all countries from their Salesforce.com lead data to a regional hierarchy. They already have a file that gives them a great start, but they know that they continue to get new leads from countries that have not yet been mapped to a region. They would like to have the ability to see when a new record with an unmapped country appears in their data and then map that appropriately. The recursive Webform allows them to do this. When a new unmapped country appears in their data, it can be appended to the list of countries with a null value for the region. Furthermore, this DataSet can power a table card with an alert to notify the user that there are new unmapped countries available.
+
+## How do I Set Up a Recursive Webform?
+
+We’ll use the example described above to help demonstrate how to set up a Webform. Follow the instructions below:
+
+<Note>**Note:** The “?\_f=dataflows” feature switch must be enabled in the Domo instance for you to proceed.</Note>
+
+1. Create a new MySQL DataFlow.
+2. Add the SFDC lead dataset as an input.
+3. Create a new transform with the code below. Name the output “all\_countries.”
+
+`SELECT DISTINCT`
+
+`Country,`
+
+`Null as ‘Region’`
+
+`FROM`
+
+`Sfdc_lead_object`
+
+1. Create a new output DataSet and name it whatever you would like:
+
+`SELECT * FROM all_countries`
+
+1. Click **Dev Tools** in the top right to edit the JSON. This is where you tell the DataFlow to change the type of data for the output.
+2. Scroll toward the bottom of the code and look for the output section. It will have the same name you gave it in the previous step, and you will see the “SELECT \* FROM all\_countries” query.
+3. Once you have found the output, you will notice that the type is set as “Dataflow.” Change this to “Webform” instead.
+4. Click Apply Source in the top right corner of the window. Now you will notice that your output will show the Webform icon instead of the DataFlow icon.
+5. Save and run your DataFlow.
+6. Once it is complete, reopen the DataFlow.
+7. Now you will need to add a new input DataSet. Select the DataSet that is the output of this DataFlow.  Using the output as an input is what makes this recursive.
+8. Edit the “all countries” transform and change the code to this.
+
+`SELECT DISTINCT`
+
+`Country,`
+
+`Null as 'Region'`
+
+`FROM`
+
+`sfdc_lead_object`
+
+`WHERE`
+
+`Country NOT IN (SELECT DISTINCT Country FROM country_to_region_mapping)`
+
+`UNION`
+
+`SELECT`
+
+`country,`
+
+`region`
+
+`FROM`
+
+`country_to_region_mapping`
+
+1. Save the DataFlow.
+
+Now you can build a new card off of that DataSet and set up an alert to notify you when the number of blank regions increases.

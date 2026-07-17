@@ -1,0 +1,70 @@
+---
+title: "Fiscal Calendar Guide"
+---
+
+## Terms to Know
+
+**Q. What is a “Gregorian Calendar”?**  
+A: The Gregorian Calendar is just the normal calendar that we are all used to, January to December, Sunday being the first day of the week.
+
+**Q. Customer requested to use NRF Calendar, what is NRF?**  
+A: NRF (National Retail Federation) is an organization that has a standard for fiscal calendars. This is definitely something that we can implement, simply include in the request that this is what the customer wants. Follow this link to learn more about [NRF 4-5-4- calendars](https://nrf.com/resources/4-5-4-calendar#:~:text=The%204%2D5%2D4%20Calendar%20serves%20as%20a%20voluntary%20guide,and%20Sundays%20in%20comparable%20months.).
+
+## Process a “Regular” Fiscal Calendar Request
+
+1. First, you’ll want to get the standard fiscal calendar questions and send them to the customer. Here is an updated list of those questions; simply copy and paste these as a message to the customer to get the information we need to get started on building the calendar:
+
+1. Provide starting dates for 3 different years according to the desired calendar
+2. Does the fiscal year match the actual year of the starting dates?
+   1. For instance, if your year starts on October 1st, 2018, is it considered fiscal year 2018 or 2019?
+   2. If the fiscal year is considered to be the next year, when calculating abbreviated months in the form of yyyy-mm, should this reflect the fiscal or actual year?
+3. On what day of the week do your weeks start?
+4. Does your fiscal calendar calculate months by real month boundaries (1st of every month) or does it calculate it on a week boundary basis? If it calculates based on a week boundary, please answer the questions below:
+   1. If your calendar operates on a week boundary, what is the week boundary configuration desired? Options are 4-4-5, 4-5-4, or 5-4-4, corresponding to the number of weeks in each “month” of a quarter (e.g. 4-4-5 is a quarter consisting of two 4-week months followed by a 5-week month)
+   2. Week boundary calendars require a 53rd week be added every 4-6 years, depending on leap years. What specific years should have a 53rd week added? If none, the default will be used with 2020 as a reference point of a 53rd week year.
+   3. For 53-week years, where in the year should this 53rd week be added? (e.g. first month of the year, last month of the year, etc.)
+
+2. Once you have the answers to these questions, put up a board item on the coach queue labeled “Fiscal Calendar Request” and in the Hivemind post, include the customer’s instance, the prod environment, and then the questions and answers from above.
+
+## Handle a Custom Fiscal Calendar Request
+
+**Q. Customer requested a custom calendar, what’s next?**  
+A. Firstly, you need to make the customer aware of a few caveats with custom requests. When they request a custom fiscal calendar, all responsibility for the behavior of the calendar falls ON THEM and any and all errors/issues caused by implementing the configuration they defined in the file will have to be fixed on their end by providing a revised copy of the calendar file with the desired changes. Most importantly, **the amount of support we can provide on building a custom calendar is MINIMAL at best.** How much we can or can’t help will need to be determined on a case by case basis, if they do request help. After communicating this, you’ll need to provide them with a custom template to fill out.
+
+**Q.** **Where do I get the template for a custom calendar request?**  
+A: We will need to provide a standard calendar that most closely resembles what they are requesting so as to make it easier to change to what the customer needs. If the standard fiscal calendar questions were asked, you should have enough information to create a standard template that resembles what they want. If you did not ask the questions, simply do so at this point to get the necessary information to create the template.
+
+Once you’ve created the calendar, copy and paste it into a new file **using paste special and pasting only number formatting and values**; make sure to include the header as well**.** This is so that we don’t paste the formulas into the new file, since the main file used to build the templates uses formulas; it will also ensure we keep the date formatting, etc. Provide this to the customer and wait for them to send back the desired configuration.
+
+**Q.** **I got the template calendar back from the customer, now what?**  
+A: Once you have the template filled out by the customer, put up a board item on the coach queue labeled “Fiscal Calendar Request” and in the Hivemind post, include the customer’s instance, the prod environment, and the fiscal calendar attachment the customer provided. Enoc will notify you once it has been uploaded and enabled.
+
+**Q. Customer is requesting something that doesn’t sound possible, what do I do?**  
+A: Put a question on the Hivemind and Coach Board. Chances are, the customer is likely requesting something standard but using weird language/verbose that may not be familiar to you. If it is in fact, not “possible” via the standards we provide, the other option is to provide a calendar template that they can work on and fill out themselves. This would at that point be considered a custom request, which has some implications that fall on the customer, discussed in the next point.
+
+## Troubleshoot an Existing Calendar
+
+**Q.** **Customer says the fiscal calendar is wrong, what are the next steps?**  
+If the customer claims this after uploading their custom calendar file, it’s on them and they’ll need to figure out the issue on their own. Have them review the file, make changes, and send us the revised version to upload and try again. If it was implemented by us, post a question to the Hivemind and Coach Board and communicate specifically what the customer sees being incorrect.
+
+## FAQ
+
+<AccordionGroup>
+
+<Accordion title="Q. Can we do 13 “periods” instead of 12 months?">
+A: Yes absolutely, this is a standard we provide
+</Accordion>
+
+<Accordion title="Q. Can we have our weeks start on X day but have the year always start on Y day? (i.e. Week starts on Monday but Year starts on the first Sunday of the year)">
+A: No, the start weekday of the week needs to coincide with the start weekday for the year if they want years to start on a specific weekday.
+</Accordion>
+
+<Accordion title="Q.** **Customer wants the fiscal calendar to be enabled on all cards by default, is this possible?">
+A: Currently, no. They’ll need to enable the fiscal calendar by going to the analyzer view of the card and checking the check box labeled “Use Fiscal Calendar” found in the date range settings, on a card by card basis. There are no plans to change this behavior.
+</Accordion>
+
+<Accordion title="Q. Can we have a month boundary calendar, except the year always starts on the first Monday of the year?">
+A: No, this would be mixing a Month Boundary configuration with a Week Boundary configuration, which we do not do. We CAN give the customer a template for this however.
+</Accordion>
+
+</AccordionGroup>

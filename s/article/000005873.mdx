@@ -1,0 +1,84 @@
+---
+title: "Domo Variables Troubleshooting"
+---
+
+### Intro
+
+<Warning>**Important:** This article is for Domo Technical Support agents handling customer issues related to Domo Variables.</Warning>
+
+This article's purpose is to assist internal Support staff in diagnosing, troubleshooting, and resolving issues related to the use of Variables in Domo cards, dashboards, and Beast Modes (calculated fields), as well as gathering necessary information for escalation when needed.
+
+---
+
+### Overview of Domo Variables
+
+Variables in Domo are dynamic values that function within Beast Modes, allowing users to create interactive dashboards and cards that behave like apps. They help reduce content clutter by enabling the reuse of a single variable across multiple DataSets, cards, and dashboards, eliminating the need to duplicate variables. Learn more about [Variables](/s/article/7903767835031) in the Knowledge Base.
+
+#### Common Use Cases for Variables
+
+- What-if analysis
+- KPI exploration
+- Time comparison
+- Scorecards for product performance
+- Guided analysis
+
+### Create and Use Variables
+
+Variables are created within the Beast Mode Editor and are visible to all users in the instance.
+
+**Important Usage Notes:**
+
+- Variables can be created without being used in a Beast Mode (calculated field); however, to function or be modified in Analyzer or dashboards, a Variable must be added to a Beast Mode.
+- Each Variable can be added only once per dashboard. If a Variable doesn't appear in the selection list, it already exists somewhere on that dashboard; it will need to be located and moved if necessary.
+- Changing a Variable's default value updates all occurrences throughout the instance (cards and dashboards) for all users unless the Variable is locked.
+
+# Add a Variable to a Beast Mode
+
+Follow these steps to add a Variable to a Beast Mode (calculated field):
+
+1. Open an existing Beast Mode calculation inside Analyzer or open the Beast Mode Editor to create a new calculated field.
+2. Select where in the Beast Mode formula you want to insert the Variable.
+3. Go to the **Variables** tab and locate the desired Variable.
+4. Double-click the Variable to insert it at the selected position.
+5. (Optional) Repeat to add additional Variables.
+6. (Optional) Use the **Validate** option to ensure the Beast Mode calculation works correctly with the Variables.
+7. Save the calculated field and exit the Beast Mode Editor.
+
+### Troubleshooting Checklist for Variable Issues
+
+Most issues reported with Variables are related to the Beast Modes they are used in, rather than to the Variables themselves. Use the following checklist and tips to troubleshoot common Variable issues:
+
+- **General Resource —** Refer to the [Beast Mode FAQ](/s/article/360043430053) for Beast Mode-related issues.
+- **Date Variables —** Date Variables do not support literals. We recommend using a widely understood date format such as YYYY-MM-DD when working with dates.
+- **CASE Statements —** Issues may occur when CASE statements mix multiple data types in different WHEN clauses, especially when combining aggregations and non-aggregations. Best practice is to use consistent data types and either all aggregations or all non-aggregations within the CASE. Multiple Beast Modes may be necessary for complex logic.
+- **Case Sensitive —** Ensure Variables have consistent case sensitivity throughout your Beast Mode calculations and usage.
+- **Error Logs —** When troubleshooting complex Beast Mode or variable issues, check Kibana logs for relevant error messages or traces.
+
+### Common Variable Issue Symptoms and Diagnostic Steps
+
+| Symptom | Diagnostic Step(s) |
+| --- | --- |
+| Variables not saving or persisting | - Confirm proper scope and user permissions - Test persistence across browsers - Check for environment restrictions blocking local storage or cookies |
+| Variables not appearing on the dashboard | - Verify the Variable is added to a Beast Mode and not already present elsewhere on the dashboard |
+| Variable values not updating in cards | - Confirm cards reference the correct Variable names and syntax - Clear cache and refresh cards/dashboards - Check DataFlows and filters that rely on the Variable |
+| Unexpected errors in the Beast Mode | - Validate usage of Variables in CASE statements and aggregation contexts - Check case consistency - Review error logs |
+| Multiple Variables causing conflicts | - Break down logic into multiple Beast Modes to isolate errors and maintain consistent data types |
+
+### Key Information to Gather When Troubleshooting
+
+- **Variable details —** Name, type (text, numeric, date), and scope
+- **How and where the Variable is used —** Beast Mode, cards, dashboards
+- **Screenshots or video recordings —** Helpillustrate the issue
+- **Examples of Beast Mode formulas —** Places that reference the Variable
+- **User roles and permissions —** Anything related to Variable editing and usage
+- **Any recent changes or deployments —** Changes that affect Variables or Beast Modes
+- **Error messages and diagnostic data —** Any available data from Domo logs (Kibana)
+
+### Escalation Criteria
+
+Escalate to an L2 if you encounter the following:
+
+- The issue persists after confirming Variable and Beast Mode configurations are correct
+- Unexpected or undocumented errors appear in logs
+- Customers report bugs affecting multiple users or dashboards
+- Variable behavior differs across environments or instances without configuration changes

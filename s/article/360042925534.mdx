@@ -1,0 +1,109 @@
+---
+title: "Windowing Functions in Beast Mode"
+---
+
+## Intro
+
+Have you ever needed to do a rank or percent of total in Beast Mode? You may be able to use the following windowing functions in Beast Mode to accomplish these kinds of tasks:
+
+- SUM (\*)
+- RANK (\*)
+- NTILE() (\*\*)
+- PERCENTILE\_RANK (\*\*)
+- AVERAGE (\*\*)
+- MIN (\*\*)
+- MAX (\*\*)
+
+\* This calculation is supported and will run without problem on the Domo side.  
+ \*\* You can use this function in Domo, but it’s not supported and may not work in the future.
+
+<Tip>**Tip:** There must be a space between the function and the parenthesis, such as RANK ().</Tip>
+
+## Vertica Documentation
+
+This documentation provides a background into how Window functions actually work behind the scenes and their intended purposes. The documentation is exhaustive and done extremely well, and it can help you with ideation and learning what might be possible using these functions: [https://my.vertica.com/docs/7.1.x/HTML/Content/Authoring/SQLReferenceManual/Functions/Analytic/RANKAnalytic.htm](https://my.vertica.com/docs/7.1.x/HTML/Content/Authoring/SQLReferenceManual/Functions/Analytic/RANKAnalytic.htm)
+
+## Use Case #1: SUM
+
+The primary use case for the SUM window function in Beast Mode is an overall total. The general form of the function looks like this:  
+    
+ `SUM( <value expression> )    
+OVER(   
+PARTITION BY <comma separated list of columns>   
+ORDER BY <comma separated list of columns>  
+)`
+
+<Note>**Note:** Ensure there is at least one space between characters in different words; otherwise, white space is completely ignored, like any other Beast Mode calculation.</Note>
+
+When you are actually implementing an overall sum, you’ll typically ignore both the PARTITION BY and ORDER BY parts, leaving you with an empty OVER clause (just OVER() ). This will get you an overall sum across the entire card. The <value expression> part can be whatever you’d like to sum up, including any non-window function Beast Mode formula (or combination of them). However, note that it currently must be an aggregated value.
+
+Here are some examples:
+
+- Total revenue across all reps:  
+     
+   `` SUM( SUM(`total revenue`) ) OVER() ``
+- Total days spent closing deals when your data might be dirty and have multiple values:  
+     
+   `` SUM( MIN(`days to close`) ) OVER() ``
+- Count of deals across all reps:  
+     
+   `` SUM( COUNT(DISTINCT `deal id`) ) OVER() ``
+
+<Note>**Note:** The following calculation will validate in the Beast Mode editor currently, but will not render in a card: SUM( `total revenue` ) OVER()</Note>
+
+## Use Case #2: RANK
+
+The general form of the RANK window function is essentially the same as the SUM function, except that it doesn’t take any parameters in the first set of parentheses. The PARTITION BY and ORDER BY clauses also become important when using rank. Generally, the PARTITION BY clause should only contain the column that you’re using as your primary categorical axis, and the ORDER BY clause should match your card’s sort order.
+
+Here are a few examples:
+
+- Ranking of reps by revenue closed:  
+     
+   `` RANK() OVER(PARTITION BY `rep name` ORDER BY SUM(`total revenue`) DESC) ``
+- Ranking of regions by total deals in flight:  
+     
+   `` RANK() OVER(PARTITION BY `region` ORDER BY COUNT(DISTINCT `deal id`) DESC) ``
+- Ranking of regions by avg. sales cycle (quickest to slowest):    
+     
+   `` RANK() OVER(PARITITON BY `region` ORDER BY AVG(`days to close`) ) ``
+
+## Use Case #3: Percentile Rank and Quartiles
+
+Here is a sample problem we encountered with one of our customers and how we resolved it using a windowing function. Most of the analysis we were doing with the customer was rankings-based, involving calculating rankings through multiple slices of the data (rankings by industry, rankings by product, rankings by region, country, etc.). Each time we needed to create a new ranking, we had to do at least two new transforms in a MySQL DataFlow. In addition, when we computed the rankings in a DataFlow, they became fixed, making the date range and filter features useless for cards using rankings.
+
+We needed a Beast Mode calculation that looked like this:
+
+`` RANK() OVER(ORDER BY SUM(`Net Deal Fees`)) ``
+
+This would allow us to build every ranking card, and it would be filter- and date-range friendly, not to mention usable by Publication Groups. This would reduce the number of DataFlows we’d need to write and cards we’d have to build.
+
+In addition, we needed a Beast Mode calculation like this:
+
+`` RANK() OVER(PARTITION BY QUARTER(`Date`) ORDER BY SUM(`Net Deal Fees`)) ``
+
+This would allow us to display the ranking trended over time and split out by quarter.
+
+At some point, you may need to use a percentile ranking either visually in a card or computationally (e.g. weighted scores), and you may face the same limitations outlined above: the action is difficult to implement in MySQL DataFlow, it’s fixed once it's been computed, and it kills the dynamic nature of cards.
+
+To solve the issues described above, all you need to do is employ the following windowing functions:
+
+- `` NTILE() OVER(ORDER BY `Quantity`) ``
+- `` PERCENTILE_RANK() OVER(ORDER BY `Quantity`) ``
+
+## Use Case #4: Computations Involving Running Totals
+
+We encountered a situation where we had some fantastic Running Total charts and even options to make certain bars in cards behave as running totals, but we had no way to make ratios of Running Total Bars accurate because we couldn’t access the rolling sum. This led to some strange and confusing experiences for users with our Running Total charts.
+
+For example, a common card we’ve seen built is a Grouped Bar and Line chart in which the two bars are values (say revenue and cost) and the line represents the ratio of the two. When you change the bars to be running totals, you would expect the line to represent the correct ratio of the bars it overlays, but the line is instead computed only from the values in that period or category (not the rolling sum).
+
+Even worse, when you use a Running Total chart with a line representing a calculation, it pre-computes the calculation, then just sums up the result as you move forward across time.
+
+You can solve this by letting a user access the running total values directly in a Beast Mode column. Here is the formula you need:
+
+`` (SUM(`Revenue`) OVER (ORDER BY MAX(`Date`)) / (SUM(`Cost`) OVER (ORDER BY MAX(`Date`)) ``
+
+## Tips and Tricks for Using Vertica/Windowing Functions in Analyzer
+
+- If you put anything in the PARTITION BY window function, that function has to be called out somewhere else in the card. So the GROUP BY is in line with the PARTITION BY function. The problem is that people have to visualize the query happening in the background.
+- Make sure that the sorting that you set in the card is set properly if you’re going to be using the SHOW ONLY feature.
+- Windowing functions calculate after filters, so make sure you filter accordingly.

@@ -1,0 +1,118 @@
+---
+title: "Domo Technical Support Troubleshooting Guide: Alerts"
+---
+
+### Purpose
+
+This guide supports Domo Technical Support employees in diagnosing and resolving issues related to Domo Alerts, including alert creation, triggering, delivery, and unexpected behavior.
+
+---
+
+### Resolve Customer Issues
+
+There are three steps to begin resolving a customer issue. Each one is described below.
+
+# Understand the Customer's Issue
+
+Begin by clarifying the following:
+
+- What type of alert is affected? (Threshold Alert, Growth Alert, Custom Alert, Dataset Alert, Card Alert, etc.)
+- What does the customer expect the alert to do versus what is happening?
+- Are all alerts affected or only specific ones?
+- When did the problem begin? Were there any recent changes to DataSets, permissions, or alert configurations?
+
+# Gather Key Information
+
+| Information to Gather | Purpose |
+| --- | --- |
+| Customer and Org Information | Case tracking, access validation |
+| Alert Name(s) and IDs | Identify affected alerts |
+| Detailed Expected vs Actual Behavior | Understand the issue |
+| Alert Type and Conditions | Verify configuration and logic |
+| Datasets / Cards Linked to Alert | Check data freshness and compatibility |
+| Recipients / Delivery Channels | Confirm intended alert recipients |
+| Alert Frequency and Schedule | Ensure timing is as expected |
+| Sample Data or Dashboard State at Trigger time | Validate data validity |
+| Steps to Reproduce | Facilitate internal replication |
+| Screenshots of Alert Setup and Notifications | Visual confirmation of configurations |
+| Browser, Device, and Domo Environment | Troubleshoot client-side issues |
+| Relevant Logs / Audit History (if available) | Track alert processing |
+| Timestamp and Timezone of Expected Trigger | Analyze timing-related discrepancies |
+
+# Initial Verification
+
+Verify the following:
+
+- Is the alert active and enabled in Domo?
+- Confirm alert rules and conditions: Are logical operators and threshold values correct?
+- Verify that the DataSet or card feeding the alert is updating and running successfully.
+- Review the alert frequency and any snooze or suppression settings.
+- Verify notification delivery channels (email, Slack, etc.) and confirm recipient accuracy.
+- Check user permissions for alert access and data visibility.
+- Confirm whether the alert has successfully triggered in the past.
+
+### Common Issues and Diagnostic Steps
+
+#### 4.1 Misunderstanding Alert Functionality
+
+- Review the data underlying the alert, including the card/DataSet status and the alert rules.
+- Confirm that the card or DataSet runs properly and returns expected data.
+- Clarify the expected behavior to avoid misinterpretations.
+
+#### 4.2 Alert Save Error Related to Columns
+
+- Check which columns the alert references.
+- Verify that these columns exist and are valid in the DataSet/card.
+- Alerts can throw errors if columns named in rules do not match existing columns.
+
+#### 4.3 DataSet Alerts and Federated DataSets
+
+- DataSet Alerts do not work on federated DataSets; customers must use Card Alerts for federated data.
+- Notes:
+  - Cloud Amplifier supports DataSet Alerts.
+  - If a fiscal calendar is in use, ensure a read/write Cloud Amplifier integration is configured.
+  - Be aware of firewalls or network policies that might impact Cloud Amplifier connectivity.
+
+#### 4.4 Email Notifications Not Received
+
+- Ask the customer to check if alerts are caught by spam or junk filters.
+- Use the Email Health Report ([https://domo.domo.com/page/882344074](https://domo.domo.com/page/882344074)) to check bounced emails.
+
+  
+<Warning>**Warning:** This report contains sensitive information — DO NOT SHARE EXTERNALLY.</Warning>
+
+#### 4.5 Sharing Issues: Groups or People Not Visible
+
+- Check if users/groups are included in the PDP (Permission Data Policy).
+- There are two types of PDP alerts:
+  - Contextual alerts: Anyone with any PDP access can subscribe; evaluation is done per user’s PDP context. Contextual alerts allow evaluation to adapt per user’s permission context.
+  - Specific policy alerts: Only users with explicit permissions to associated PDP policies can subscribe. Specific policy alerts restrict subscription to users explicitly linked to designated PDP policies.
+  - Note that “All rows” is not a catch-all for permissions.
+
+#### 4.6 "Any Row is Added" Metric Missing in Alert Setup
+
+- This metric only appears for alerts associated with Tundra DataSets (which support DataSets up to 100,000 rows).
+- Vertica DataSets do not support this metric, so it won’t appear in alert setup for those.
+
+### Advanced Troubleshooting
+
+- Attempt to replicate the issue in a sandbox or test environment.
+- Review the platform status for ongoing incidents impacting alerts.
+- Check alert processing and audit logs internally for failure details.
+
+### When to Escalate
+
+Escalate when:
+
+- Alerts consistently fail despite correct configuration.
+- Bugs or platform issues affecting alert functionality are suspected.
+- Data integration or backend infrastructure problems impact alert generation.
+  - Include all gathered details, reproduction steps, logs, and customer impact in the escalation.
+
+### Communicating with Customers
+
+- Summarize findings accurately and clearly.
+- Confirm customer understanding of alert behavior or platform limitations.
+- Provide actionable next steps or workarounds, if available.
+- Set realistic expectations for resolution timelines.
+- Document all communications in the support case.

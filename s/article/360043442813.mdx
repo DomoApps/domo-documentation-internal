@@ -1,0 +1,43 @@
+---
+title: "URL Hooks and Text Replacement"
+---
+
+<Warning>**Important:** This topic is for INTERNAL USE ONLY. Do NOT share any of the content in this page with customers! Be especially careful when doing a WebEx, etc. We DO NOT want customers to see these.</Warning>
+
+## Hooks
+
+**These may not be accurate as of 9/19/2019**
+
+In Support we use many hooks (i.e. feature switches) to accomplish various tasks. Below is a growing list of these hooks and what they are used for.
+
+| Hook | Use | URL Example |
+| --- | --- | --- |
+| ?\_f=show-debug | Used to bring up the **History** tab in the connector. This is helpful if the connector is failing. It will also show when the last successful run was and how long it takes on average to run. | https://domo.domo.com/datasources/0e080d82-af19-4556-8dfe-837f39568f45/details?\_f=show-debug |
+| /playbooks?\_f=playbooks | Bring up the list of Playbooks that are available. You can also see which ones are installed in that instance and do other actions in regards to Playbooks. | https://domo.domo.com/playbooks?\_f=playbooks |
+| /auth/index?system=true | Used to bypass any SSO the company may have. For example GEIP uses SSO, so we can't get in without using this hook. | https://geip.domo.com brings you to their SSO page.  https://geip.domo.com/auth/index?system=true bypasses the SSO page. |
+| ?\_f=exportds | Used to export a DataSet. The export option comes up when you would run the DataSet. | https://domo.domo.com/datasources/0e080d82-af19-4556-8dfe-837f39568f45/details?\_f=exportds |
+| /api/data/v1/connectors/com.domo.connector.<>?language=en  (replace <> with the connector name) | Used to see what version of a connector is currently deployed on an instance.  For example, if dev.dev says that a problem is fixed in version 2.78, you would use this hook with the correct com.domo.connector.<CONNECTOR NAME> and you will be able to see the Major and Minor version currently deployed to that instance. There are other details found in here, but this is the main use. Be sure to use it on the instance you are curious about. Because many of our instances are on different servers they will not all have the same version of connectors at the same time; it depends on the push schedule, etc.  Because this is JSON, I would highly recommend installing a simply JSON viewer to make it look more understandable:  [https://chrome.google.com/webstore/detail/jsonview/chklaanhfefbnpoihckbnefhakgolnmc?hl=en](https://chrome.google.com/webstore/detail/jsonview/chklaanhfefbnpoihckbnefhakgolnmc?hl=en) | https://domo.domo.com/api/data/v1/connectors/com.domo.connector.googleAnalytics?language=en     https://domo.domo.com/api/data/v1/connectors/com.domo.connector.adobeanalytics?language=en |
+
+## Text Replace
+
+Using Text Replace, you can set up a "keyphrase" and have it replaced with a predefined text string. For example:
+
+If I type d-b-g I get ?\_f=show-debug
+
+If I type a-c-n I get ?\_f=allconnectors
+
+This not only saves times, but since you will put these into the program you will be able to easily refer back to them if you forget a hook.
+
+You can also use this for things like your signature.
+
+For example, if I type r-y-s-i-g I get the following:
+
+*Ryan Bullock*
+
+*Tier 2 Support Consultant – Connectors*
+
+*801-980-5771*
+
+*7am - 4pm M-F MT*
+
+Many different programs are available for doing this, including aText ([https://itunes.apple.com/us/app/atext/id488566438?ls=1&mt=12](https://itunes.apple.com/us/app/atext/id488566438?ls=1&mt=12)) and xType ([http://mac.softpedia.com/get/Utilities/Presto-app4mac.shtml](http://mac.softpedia.com/get/Utilities/Presto-app4mac.shtml)). aText costs $5, while xType is freeware.

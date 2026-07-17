@@ -1,0 +1,277 @@
+---
+title: "Using Data Admin"
+---
+
+<Warning>**Important:** This topic is for INTERNAL USE ONLY. Do NOT share any of the content in this page with customers!</Warning>
+
+---
+
+### Usefulness of Data Admin for Support
+
+Data Admin is a tool created by Engineering with a LOT of functionality for monitoring and controlling back-end systems that power Domo.
+
+While not built primarily for Support, it does provide a few functionalities that are very useful to Support. Most notably, it allows us to review update history, schema changes, and current health status of datasets in Domo. It also allows us limited ability to access/restore older versions of datasets and to fix a few issues that crop up now and then.
+
+### A Word of Warning
+
+Because Data Admin is a back-end tool built primarily for use by trained experts in Engineering, it has a lot of "doom buttons". Generally speaking, these "doom buttons" are all blocked/disabled for Support users, but as an internal tool, there is very minimal QA involved in making sure they aren't accidentally made available to us. For this reason, *even if you think you know what you're doing*, and *even if you're under a lot of pressure to get something fixed and you think this button is your* *solution*, **do not click on anything you haven't been trained how to use ಠ\_ಠ**.
+
+### Reference Info
+
+The terms **dataset** and **datasource** are synonyms.
+
+**Replace** update method refers to when newly-uploaded data is used to completely replace all prior data in a dataset.
+
+**Append** and **insert** are synonyms that represent the update method where newly-uploaded rows of data are simply added to a dataset without removing older data.
+
+**Merge** and **upsert** are synonyms that represent a more complex update method. When performing upsert, an **upsert key** must be defined as a list of one or more columns whose combined values MUST be unique throughout a whole dataset. So, if my upsert key columns are "salesperson\_id" and "sales\_date", I can have multiple rows with the same "salesperson\_id" (e.g. "1234"), and I can have multiple rows with the same "sales\_date" (e.g. "2019-12-10"), but I cannot have multiple rows that share the same combination of values (e.g. "1234,2019-12-10"). When new data is "upserted" into an existing datasource, any rows of the existing data whose "upsert key" values match the values from the new data are deleted before the new data is appended into the datasource.
+
+A datasource's **schema** can be defined as its list of columns and their data types and, when upsert is being used, a list of columns that represent the upsert key.
+
+In Domo, a schema looks like this:
+
+```
+{
+  "name":"main",
+  "tables":[
+    {
+      "columns":[
+        {
+          "name":"User_ID",
+          "id":"User_ID",
+          "type":"STRING"
+        },
+        {
+          "name":"Type",
+          "id":"Type",
+          "type":"STRING"
+        },
+        {
+          "name":"Source_ID",
+          "id":"Source_ID",
+          "type":"STRING"
+        },
+        {
+          "name":"Name",
+          "id":"Name",
+          "type":"STRING"
+        },
+        {
+          "name":"Action",
+          "id":"Action",
+          "type":"STRING"
+        },
+        {
+          "name":"Object_Type",
+          "id":"Object_Type",
+          "type":"STRING"
+        },
+        {
+          "name":"Object_ID",
+          "id":"Object_ID",
+          "type":"STRING"
+        },
+        {
+          "name":"Object_Name",
+          "id":"Object_Name",
+          "type":"STRING"
+        },
+        {
+          "name":"IP_Address",
+          "id":"IP_Address",
+          "type":"STRING"
+        },
+        {
+          "name":"Event_Time",
+          "id":"Event_Time",
+          "type":"DATETIME"
+        },
+        {
+          "name":"Device",
+          "id":"Device",
+          "type":"STRING"
+        },
+        {
+          "name":"Browser_Details",
+          "id":"Browser_Details",
+          "type":"STRING"
+        },
+        {
+          "name":"_BATCH_ID_",
+          "id":"_BATCH_ID_",
+          "type":"DOUBLE"
+        },
+        {
+          "name":"_BATCH_LAST_RUN_",
+          "id":"_BATCH_LAST_RUN_",
+          "type":"DATETIME"
+        }
+      ]
+    }
+  ],
+  "objects":[
+    {
+      "Identity":"User_Id"
+    },
+    {
+      "Identity":"Event_Time"
+    }
+  ]
+}
+```
+
+The "columns" list shows columns w/ data types, and the "objects" list indicates which columns, combined, represent the upsert key.
+
+A **schema change** happens when columns are added to, removed from, or re-ordered in a dataset; when any of the columns' data type changes; or when an upsert key is added, removed, or changed.
+
+Every time data is loaded into Domo from any external system (i.e. Workbench, Google, etc), we save the new data exactly how we received it in a system called **Vault** (a.k.a. **DataHub**). So, even when the datasource in Domo updates via "append" or "upsert" modes and consists of data from lots of different uploads, we still have each individual upload's data stored separately in Vault. This is particularly important with upsert, because data from new updates ends up replacing some rows of data from older updates; this method of storing the individual uploads lets us go back and reference what the original rows contained when we need to.
+
+Vault is not a "database", because it cannot process queries, it only stores data in CSV format along with definitions of the "schema" that each CSV's data is *supposed* to follow. Note that, if a CSV contains a string in a column that is supposed to be numeric, Vault never knows that, because it never actually tries to process or parse the data out of the CSV format.
+
+**Adrenaline** is a separate system from Vault; this is the actual *database* system where datasources live, and where queries are processed to power cards, reports, alerts, etc. After new data is uploaded and stored in Vault, Adrenaline will read the new data from Vault and, depending on the update mode of the dataset, it will either replace the existing data in the datasource, append the new data to the datasource, or else it will upsert/merge the new data into the datasource.
+
+Adrenaline always stores every datasource on at least two physical devices. This is for redundancy (if one machine crashes, there's still another one running), and for load-balancing (if a specific datasource gets queried a lot, the work can be split across multiple devices).
+
+Under-the-covers, Adrenaline is actually two separate database engines, **Vertica** and **Tundra**. Vertica is a 3rd-party database system that we use to run queries on very large datasets. Tundra is a database system that Domo built in-house to closely mimic Vertica, but is tuned for better performance on smaller datasets.
+
+When Adrenaline updates a datasource, it starts by making a copy of the data table; it performs the update (a.k.a. **indexing**) on the copy, then replaces the original table with the updated copy. This allows queries to continue running on the original table while the update is being processed instead of just locking the table from running any queries while it's being updated.
+
+### The Glorious "Datasource" Tab
+
+In Data Admin, the primary section Support uses is the "Datasource" tab:
+
+<!-- TODO: embed image → https://domo.file.force.com/servlet/rtaImage?eid=ka05w00000123gV&feoid=00N5w00000Ri7BU&refid=0EM5w000005vOrO -->
+
+To load information for a datasource, make sure you have the correct Prod# selected at the very top of Data Admin, then paste the datasource ID into the "Datasource:" field and hit the play button.
+
+Below are details for how to read the specific tables in this tab that Support finds most useful.
+
+#### dhSchema
+
+The dhSchema table (short for datahub-schema) shows us a list of each individual schema that has applied to this dataset over time.
+
+The **schemaId** column contains a unique identifier for each schema, and is useful to reference from other tables described below.
+
+The **type** column will either say "standard" or "upsert", to indicate whether the schema contains an upsert key.
+
+The **dataSchema** column contains the actual schema definition, an example of which can be seen above. You can view the schema by double-clicking on the value to open it in another window. You can also compare 2 schemas, to see what changed between them, by highlighting two schema values (control-click or command-click while choosing them), then right-clicking on one and going to Functions > Diff. This brings up a nice side-by-side comparison of the schemas, and highlights the differences between them.
+
+The **created** column indicates when each schema was created, and is very helpful for quickly referencing whether the datasource's schema changed around the same time that a problem began happening.
+
+#### dhData
+
+The dhData table (short for datahub-data) shows us a list of each individual data upload that has occurred for this dataset. We do, periodically, completely delete older uploads that are not needed for the current state of a dataset (older "replace" uploads, or "append" uploads that were followed by a full-replace at some point); if an older upload is not listed in this table, then it cannot be recovered by Support, and almost certainly cannot be recovered by Engineering.
+
+The **schemaId** column indicates which schema from the dhSchema list was associated with this particular data upload. This makes it easy to see if a datasource's schema changed between two uploads, and you can use the dhSchema table to review what change happened between the schemas.
+
+The **dataId** column contains a unique identifier for each data upload, and is useful to reference from other tables described below.
+
+The **chainId** column contains the dataId of the earliest upload in the current append chain. Say a customer makes a new dataset, sets it to append update mode, and lets it run 3 times. The dataId values for these 3 uploads will contain 1, 2, and 3, but the chainId for all three uploads will be "1", because that was the earliest upload in the current chain of appended uploadss This also applies to "upsert" datasets to indicate the earliest upload in a chain of upserted uploads.
+
+The **rows** column indicates how many rows of data were contained in this upload.
+
+The **columns** column indicates how many columns of data were contained in this upload.
+
+The **bytes** column indicates the actual size of this particular upload (note: this may not exactly match other systems, like what a dataflow says it loaded, because some systems report the size of data before compression, and some report the size of data after compression; data size is also complicated when communicated across a network because the data size reported for that transfer may or may not include the size of the communication packet headers that contain IP addresses and other info).
+
+The **created** column indicates when this upload was started.
+
+The **completed** column indicates when this upload was finished (note: "finished" here refers to when DataHub was finished storing the new data, and does NOT represent when the datasource is finished being updated in Adrenaline).
+
+#### table\_status
+
+The table\_status table shows us a list of each individual Adrenaline device that contains a copy of this datasource, along with details on the current status of a processing datasource update. Recall that each datasource is hosted on at least two devices to allow for redundancy and query load-balancing.
+
+The **device** column indicates the ID of the device this row represents. This is useful to reference because the beginning of the ID indicates which database engine that device is running ("ad2" = Vertica, "ad3" = Tundra).
+
+The index\_data\_ids, current\_data\_ids, and temp\_data\_ids columns each reference a list of uploads from the dhData table.
+
+The **current\_data\_ids** list indicates which uploads are represented in the current live version of the datasource (reference the Adrenaline information in the "Reference Info" section, and recognize that, while an Adrenaline update is processing, this list represents the live datasource, not the copy where the update is being processed).
+
+The **index\_data\_ids** list indicates which uploads need to be in the live version of the datasource (reference the Adrenaline information in the "Reference Info" section, and recognize that, while a datasource update is processing, this list represents what the result of the update will be; when an update is completed, the index\_data\_ids and current\_data\_ids lists will match).
+
+The **temp\_data\_ids** list indicates which uploads are represented in the current copy version of the datasource (reference the Adrenaline information in the "Reference Info" section above, and recognize that this shows you which uploads are in the copy datasource, not the live datasource; when an update is completed, this list will be blank because there is no copy datasource). This list is most helpful in cases where a datasource had to be reset and re-processed upload-by-upload from the earliest upload in the most recent chain. This has to happen each time schema changes (because all of the uploads must be re-processed in the context of the new schema, so that numbers are parsed as numbers and dates as dates, etc), and it has to happen whenever an upsert dataset needs to be rolled back (append datasources can simply have the newer data taken back out, but if you do that with upsert, you might end up missing some rows from the older version that were replaced during newer uploads, so upserts have to be reprocessed from scratch when rolled back).
+
+The **rows** column indicates how many rows are currently in the live datasource.
+
+The **columns** column indicates how many columns are currently in the live datasource.
+
+The **schema** column indicates which schema the live datasource was processed with.
+
+The **index\_status** column indicates the result of the most recent update attempt. If it indicates "failure" the **index\_message** column contains an error message about why it failed. The index\_message may also indicate "index already up-to-date" in cases where the system detected that the newest data update did not require Adrenaline to actually process anything. This can happen when 1) the latest upload to an append or upsert job contained 0 rows, or 2) the latest upload to a replace job is completely identical to the prior upload.
+
+The **index\_req\_received** column indicates when the most recent update for this datasource started on that device.
+
+The **data\_updated** column indicates when the most recent update for this datasource was completed by that device.
+
+NOTE: The system is smart enough to know that it only needs to push hard to complete the update on one device, and it can let the other device/s focus more on other priorities like updating other datasources, so you'll often see that one device processes the request much slower than the other; when devices are not BOTH updated to the same version of the datasource, queries will be routed only to the fully-updated device until the other device finishes.
+
+The **data\_length** column indicates the actual size of the current live table on the device's disk. This can be helpful to review when a customer complains about load times for their dataflow's input; 300 GB of data is going to take a while to communicate across a network to load into a dataflow transform device.
+
+#### index\_events
+
+The index\_events table shows us a list of past indexing events, so we can see more than just what's in the table\_status table.
+
+This table is not loaded automatically when searching a new datasource; to load this table, you need to click the play button at the top-right of the table.
+
+The **name** column indicates which type of indexing event happened:
+
+- *index\_request*: this indicates that a new upload has been completed with DataHub, and the Adrenaline devices need to go load and process the new data.
+- *replace*: this indicates that an Adrenaline device processed a datasource update using replace update mode.
+- *insert*: this indicates that an Adrenaline device processed a datasource update using append/insert update mode.
+- *upsert*: this indicates that an Adrenaline device processed a datasource update using merge/upsert update mode.
+
+The **schema\_id** column indicates which schema was used for this particular datasource update.
+
+The **startdatetime** column indicates when the Adrenaline device began processing the datasource update job.
+
+The **enddatetime** column indicates when the Adrenaline device finished processing the datasource update job.
+
+The **rows** column indicates how many rows were in the live table at the time of completing this datasource update job.
+
+The **columns** column indicates how many columns were in the live table at the time of completing this datasource update job.
+
+The **engine** column indicates whether this update was processed on a Tundra or Vertica device. Sometimes you'll see that a datasource was moved from one engine to another when Engineering determined that it would perform better on Tundra than Vertica or vice-versa; this can be helpful to review when troubleshooting beast mode behavior changes.
+
+The **device** column indicates which device processed this update job. Sometimes you'll see that a datasource was moved from one device to another, whether to change engines, or just for maintenance; this can be helpful to review when troubleshooting claims of performance changes on cards.
+
+The **duration** column indicates how long, in milliseconds, this update job took from start to finish; remember that Adrenaline only prioritizes update processing on one device, so you'll often see one device completing much faster than the others.
+
+#### query\_events
+
+The query\_events table shows us a list of events when an Adrenaline device processed a query.
+
+The **schema** column indicates the schema of the datasource at the time of processing this query.
+
+The **metadata** column contains the actual query that was received and processed by an Adrenaline device, typically from a card being loaded, but can also be from a scheduled report or alert running, or a myriad of other cases where the product needs to query a datasource. You'll find that column names are fully-qualified, meaning that they are always preceded by the full table-name, which is the datasource id, to avoid any ambiguity in referencing columns (e.g. `58cc93ef-c32a-4c34-9158-cb5f9ec1971b`.`User\_Id`).
+
+The **startdatetime** column indicates when a query was received and began processing.
+
+The **enddatetime** column indicates when a query was finished being processed and results returned to the requesting process.
+
+The **cache** column indicates "fromcache" when results were delivered out of cache instead of actually re-processed (this happens when the exact same query has been received recently, and the datasource has not been updated since the last time the query was processed). Other values in this column are a mystery to me :)
+
+The **rows** column indicates how many rows were returned to the requesting process; this always reads "0" if results were returned from cache instead of being processed.
+
+The **columns** column indicates how many columns were returned to the requesting process; this always reads "0" if results were returned from cache instead of being processed.
+
+The **engine** column indicates which engine was used to process the query.
+
+The **device** column indicates which device was used to process the query.
+
+The **duration** column indicates how long, in milliseconds, it took to process this query. Take note that, while a query request from the product will time out waiting for a response after 60 seconds, the Adrenaline device will still finish running the query, so this column may indicate a timeframe longer than 60 seconds. When this happens, the user experience will often be that they saw card load failures on the first couple times they tried to load the cards, followed by successful loads after the query has been processed and the results are able to be served from cache instead of having to be re-processed.
+
+The **data\_length** column indicates the actual size of data returned from the Adrenaline device back to the requesting process.
+
+### L2 Tools
+
+Beyond the reference features of Data Admin outlined in this article, which are available for every L1, there are other functionalities provides to Support that can only be performed by an Engineering-Authorized L2, including:
+
+- Deleting uploads from the dhData table to correct customer mistakes.
+- Triggering re-index jobs per Adrenaline device (typically after deleting uploads).
+- Viewing the actual data from a data upload visible in the dhData table.
+- Taking the actual data from a data upload visible in the dhData table and pushing it into a brand new datasource (typically used to more closely inspect what that upload contained, or to help customers recover data that they had overwritten without having to rollback the datasource and lose newer data).
+- Increasing the string\_length of a datasource beyond 1,024 bytes. Support will only increase to a maximum of 4,096 bytes; lengths beyond that require Engineering review.
+- Implementing an Index Window on a dataset, which causes Adrenaline to automatically drop data that originated from any uploads older than a specified window of time (e.g. 30 days).
+
+To request L2 help with any of the above, please add your case to the L2 Board, indicating what help is needed.

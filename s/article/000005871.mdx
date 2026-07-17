@@ -1,0 +1,43 @@
+---
+title: "Cloud Integrations (Cloud Amplifier) Troubleshooting"
+---
+
+### Intro
+
+This document addresses some of the most recent and frequently asked questions about cloud integrations (Cloud Amplifier), as received by Domo Support. For a comprehensive overview of cloud integration capabilities, please refer to the [Cloud Amplifier Overview](/s/article/4412849158167) Knowledge Base article. It provides a solid foundation of knowledge, explains expected functionality, and answers many common questions.
+
+---
+
+### Fiscal Calendar Issues
+
+Fiscal calendars are currently supported only with a Read/Write cloud integration. Read-only integrations and Federated data do not support fiscal calendars.
+
+To apply a Fiscal Calendar to a cloud Writeback integration, Domo Engineering must install the calendar. Therefore, such requests require submitting a Jira ticket to the Engineering team.
+
+### Boolean Datatypes
+
+Domo does not currently support Boolean data types. Cloud integrations that attempt to import Boolean data into Domo will result in errors, such as:
+
+`"An issue has occurred querying your cloud amplifier integration - 'undefined'."`
+
+The recommended solution is to change the data type at the source until Domo adds support for Boolean data types.
+
+### Exporting Large Data
+
+There are known issues when exporting large DataSets from Databricks. Engineering can enable specific feature switches that allow the use of an input tile in Magic ETL, which supports filtering to limit input rows.
+
+If filtering via Magic ETL is not feasible, it is recommended to provide a column that can be used to split the export into multiple smaller queries. Assistance from Engineering may be required to enable these feature switches.
+
+### Data Transformation
+
+**Magic ETL Integrations**
+
+Magic ETL currently does not support DataSets via cloud integrations as inputs. This limitation is due to a security feature in Snowflake that explicitly prevents direct exports from our system to S3. Domo Engineering is actively working on updating the integration to support this security feature.
+
+**Adrenaline Dataflows**
+
+Under normal circumstances, Adrenaline DataFlows do not support Cloud Amplifier inputs. However, enabling certain feature switches (dataflows-adrenaline and/or dataflows-cloud-engine) can allow this functionality.
+
+**SQL Dataflows**
+
+DataSets via cloud integrations are not supported as inputs in SQL DataFlows.

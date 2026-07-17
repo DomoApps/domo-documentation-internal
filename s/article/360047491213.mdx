@@ -1,0 +1,40 @@
+---
+title: "Troubleshooting Dataset via Email Connector"
+---
+
+## Intro
+
+This article will show you how to view email that was sent to a Data set via email connector.
+
+<Note>**Note:** Any email being sent from your domo.com email will not be accepted by the Connector, please use a testing email for troubleshooting. If you are unable to see any successful job runs please use the following format to get the email manually: https://<CUSTOMER>.domo.com/api/connectors/email/download/email-<DATASETID>/<EXECUTIONnumber></Note>
+
+As you can see in the example below, this DataSet has only run two times. The second job run has failed and is displaying an error “Domo is ready, but an email was received that did not contain the specified file type.”
+
+<!-- TODO: embed image → https://domo.file.force.com/servlet/rtaImage?eid=ka05w00000123gb&feoid=00N5w00000Ri7BU&refid=0EM5w000005vOrP -->
+
+## Troubleshooting Steps
+
+1. Go to the Tab called **DATA**.
+2. Find the Column called **\_DOWNLOAD\_EMAIL\_** by searching with “download” in the column search field. This will show the last successful run.  
+     
+
+   
+<!-- TODO: embed image → https://domo.file.force.com/servlet/rtaImage?eid=ka05w00000123gb&feoid=00N5w00000Ri7BU&refid=0EM5w000005vOrC -->
+
+3. Copy this partial URL.
+4. Open a new Tab in your browser with the URL https://example.domo.com/paste\_here You will need to change the last number of the URL to the latest job run number.
+
+   **For Example:**  
+   Copied URL  
+   /api/connectors/email/download/email-e8190282-c487-421f-9b86-85794818383d/1
+
+   Now change the job run number at the end from “1” to “2”  
+   This will give you the following URL:  
+   [https://domo-support-prod1.domo.com/api/connectors/email/download/email-e8190282-c487-421f-9b86-85794818383d/2](https://domo-support-prod1.domo.com/api/connectors/email/download/email-e8190282-c487-421f-9b86-85794818383d/2)
+5. Entering the URL will download the email that was sent. The file type is a .eml file. You will need to tell your computer how to open this. Choose your preferred email client (for example Outlook.) Here is how it will look opened in Outlook:  
+     
+
+   
+<!-- TODO: embed image → https://domo.file.force.com/servlet/rtaImage?eid=ka05w00000123gb&feoid=00N5w00000Ri7BU&refid=0EM5w000005vOrN -->
+
+6. From here we can open the file that is attached or look at the email format to better troubleshoot.

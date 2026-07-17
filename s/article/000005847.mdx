@@ -1,0 +1,108 @@
+---
+title: "Workflows Troubleshooting"
+---
+
+### Purpose
+
+Workflows is a powerful automation tool that enables users to streamline business processes by connecting actions and data across various systems and applications. Built using a visual drag-and-drop interface, Workflows supports both technical and non-technical users in designing automated sequences for tasks such as data alerts, approvals, data enrichment, and third-party integrations.
+
+This guide helps Technical Support identify, troubleshoot, and resolve common issues encountered with Workflows, including errors during execution, deployment, Code Engine failures, and unexpected behavior in workflow logic. It also outlines what key information to gather when working with customers.
+
+### Troubleshooting Approach
+
+Effective troubleshooting begins by understanding the customer’s expected behavior and comparing it to the actual results.
+
+### Workflows Components Overview
+
+- Workflows: Shapes connected by lines representing actions and logic  
+    
+
+  
+<!-- TODO: embed image → https://domo.file.force.com/servlet/rtaImage?eid=ka0Vq000000C89t&feoid=00N5w00000Ri7BU&refid=0EMVq0000074DNd -->
+
+- Code Engine: Custom code functions executed within Workflows  
+    
+
+  
+<!-- TODO: embed image → https://domo.file.force.com/servlet/rtaImage?eid=ka0Vq000000C89t&feoid=00N5w00000Ri7BU&refid=0EMVq0000074DQr -->
+
+- Forms: User input forms used in User Tasks  
+    
+
+  
+<!-- TODO: embed image → https://domo.file.force.com/servlet/rtaImage?eid=ka0Vq000000C89t&feoid=00N5w00000Ri7BU&refid=0EMVq00000748RE -->
+
+- Queues: Tasks awaiting completion with associated permissions  
+    
+
+  
+<!-- TODO: embed image → https://domo.file.force.com/servlet/rtaImage?eid=ka0Vq000000C89t&feoid=00N5w00000Ri7BU&refid=0EMVq00000748W4 -->
+
+### Workflows Start Types
+
+- **Message Start —** Triggered by endpoint call with parameters in the request body
+- **Form Start —** Triggered by user form submission with mapped parameters
+- **Timer Start —** Runs on a configured schedule
+- **Alert Start —** Triggered by data events such as row updates
+
+### Access and Permissions
+
+- Workflows execute using access permissions of the initiating user
+- Timer starts run under the permissions of the workflow version creator
+- Queues enforce queue-level and task-level permissions that affect visibility
+
+### Common Issues and Troubleshooting Steps
+
+##### Execution Issues
+
+- Identify the failing workflow version via the executions list.
+- Locate the red error box indicating the failure step and click it.
+- Review the error message, input variables, and output of that step. •
+- Common causes:
+  - Data type mismatches
+  - Infinite loops
+  - Null or missing data
+
+##### Code Engine Failures
+
+- Locate the function in the Code Engine UI
+- Run test cases with sample inputs
+- Review error and output logs
+
+##### Deployment Issues
+
+- Open the browser console and network tab.
+- Reproduce the problematic action (save, validate, deploy).
+- Check network requests for failures (highlighted in red) and error responses.
+- Validate/deploy errors may provide descriptive messages in responses.
+- Front-end issues may only appear as console errors without network failures.
+
+##### Code Engine Issues
+
+- Identify package, version, and function name.
+- Verify expected vs. actual inputs and outputs.
+- Debug functions by running tests within the Code Engine UI.
+
+##### Email Issues
+
+- If email steps succeed but recipients do not receive emails, investigate possible spam filtering or delivery issues on the recipient’s side.
+
+##### Invisible Shapes (Rare)
+
+- Invisible shapes or lines can block saving a workflow. To fix:
+  - Select all (**Ctrl/Cmd** + **A**)
+  - Copy (**Ctrl/Cmd** + **C**)
+  - Delete the workflow canvas
+  - Paste (**Ctrl/Cmd** + **V**)
+  - Reconnect the start shape
+
+### Conclusion
+
+Troubleshooting Workflows involves multiple components, including logic validation, permissions, deployment, and code debugging. Use this structured approach to isolate and resolve common issues. Some cases may require deep investigation or escalation.
+
+**When escalating or documenting issues, always:**
+
+- Provide clear reproduction steps and expected vs. actual behavior
+- Include screenshots or videos of errors when possible
+- Share relevant logs, workflow IDs, and data samples for complex issues
+- Document troubleshooting steps already taken

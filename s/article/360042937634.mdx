@@ -1,0 +1,492 @@
+---
+title: "Basic Connector Troubleshooting"
+---
+
+## Intro
+
+This guide will give you the foundation and confidence to handle Connector issues. With over 550 Connectors, you will see new and varied issues daily. Get familiar with not always knowing the answer and having to do some sort of troubleshooting.
+
+Your top priority is to teach the customer and help them move forward. Assure them you are on their side and will help in any way possible.
+
+Now, whilst the customer is your top priority, remember that they are not always right. The statement of "The customer is always right." ignores that customers can be misinformed, have unrealistic expectations, and/or try to misuse a product in ways that void the guarantee. "If we adopt the policy of admitting whatever claims the customer makes to be proper, and if we always settle them at face value, we shall be subjected to inevitable losses." (Frank Farrington, 1914 from Successful Salesmanship: Is the Customer Always Right?)
+
+## Terms to Know
+
+- **Application Programming Interface (API)**  
+    
+  Watch this [video](https://www.youtube.com/watch?v=s7wmiS2mSXY) to gain a basic understanding of what an API is and how they are used.
+- **Connectors**  
+    
+  Continuing with the example from the API video above, let us look at the Google Analytics Connector. The Connector is the menu and the waiter (API) is Google Analytics. The user fills out what they want and runs the Connector. Google's API takes that to Google, gets the response, and returns it. Domo then parses it and shows it to the user.  
+  Knowing this, you can see where things could go wrong.  
+    
+  1. The customer may have ordered the wrong thing or did not understand the menu.  
+  2. The menu could be incorrectly written.  
+  3. The waiter did not return what was expected; be it the wrong data, or it was too much for him to carry, etc.  
+    
+  This scenario, though simplified, will help you narrow down where the possible issues are.
+- **Authentication (optional)**  
+    
+  Read this [article](https://nordicapis.com/3-common-methods-api-authentication-explained/) to learn more about common authentication methods used.
+- **API Types (optional)**  
+    
+  Read this [article](https://www.upwork.com/hiring/development/soap-vs-rest-comparing-two-apis/) to learn more about the difference between REST and SOAP APIs. This will help to speak to customers that already have a high technical understanding of APIs.
+- **Stack Trace**  
+    
+  In computing, a stack trace (also called stack backtrace or stack traceback) is a report of the active stack frames at a certain point in time during the execution of a program.
+
+## Basic Concepts
+
+- **Understand**   
+    
+  Many times the cases that come in are vague, and the user is reporting an issue. Your first goal is to understand what the issue is and why they think it is an issue. Figure out what the user is expecting in the end. Then, break it down to the smallest and most concise statement you can.
+- **Replicate**   
+    
+  You know their root issue. Replicate it and see if we can find a solution or way to get them moving forward. Being able to or not able to replicate it gives us important information and helps rule out other possible issues.
+
+  
+<Note>**Note:** It is important you are trying to replicate the root issue you found in the previous step. For example, the customer says that their DataSet has issues with data on March 5th. Let us just pull in a few days around March 5th to see if the issue persists. There is much less data to siphon through and things will go much faster.
+- **Resolve**   
+    
+  Help them move forward and always teach. If we give them a fish and send them away, the next time they are hungry they will come asking for fish. We instaed need to teach them how to fish so they can do it themselves in the future. Ensure that anything taught is not only listed in our Knowledge Base but is clear and easy to understand. Doing this will help mitigate further questions and allow us to refer customers there.</Note>
+
+## Recommended Tools
+
+You do not need any of the following tools, however, they will make troubleshooting connector issues much easier and quicker.
+
+<Note>**Note:** The VCR/workspace already has these added to Chrome. Please ensure they are enabled extensions.</Note>
+
+- **IDDQDomo**   
+    
+  Rather than memorizing endpoints, this internally created Chrome extension makes getting Error States and other information very easy. This tool can output an Error State at a click of a button. See [IDDQDomo](/s/article/360042935514) for more information on how to download and use the tool.
+- **JsonViewer**  
+    
+  A JsonViewer tool helps make JSON more digestible for a viewer. [Here](https://chrome.google.com/webstore/detail/json-viewer/gbmdgpbipfallnflgajpaliibnhdgobh?hl=en-US) is an example of a JsonViewer you can download. For example, the Viewer can turn the data you see from this:  
+  `{"type":"FeatureCollection","metadata":{"generated":1546878962000,"url":"[https://earthquake.usgs.gov/earthqua...5_hour.geojson](https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_hour.geojson)","title":"USGS Magnitude 4.5+ Earthquakes, Past Hour","status":200,"api":"1.7.0","count":0},"features":[]}`  
+    
+    
+  To this:
+
+  `{`
+
+  `"type": "FeatureCollection",`
+
+  `"metadata": {`
+
+  `"generated": 1546878962000,`
+
+  `"url": "[https://earthquake.usgs.gov/earthqua...5_hour.geojson](https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_hour.geojson)",`
+
+  `"title": "USGS Magnitude 4.5+ Earthquakes, Past Hour",`
+
+  `"status": 200,`
+
+  `"api": "1.7.0",`
+
+  `"count": 0`
+
+  `},`
+
+  `"features": Array[0][`
+
+  `]`
+
+  `}`
+
+  ​
+
+## Understanding Error States
+
+1. Check the Error State by running [IDDQDomo](/s/article/360042935514).
+
+2. Copy the Error State JSON and paste it into your JsonViewer tool.
+
+An Error State should look like the following:
+
+`{`
+
+`"streamId": 955,`
+
+`"executionId": 16,`
+
+`"toe": "DS00QKBQCL-BVKRH-NLQWP",`
+
+`"startedAt": 1538686825.000000000,`
+
+`"endedAt": 1538686974.000000000,`
+
+`"updateMethod": "REPLACE",`
+
+`"index": true,`
+
+`"retryCount": 0,`
+
+`"retryExecution": null,`
+
+`"containerManagerId": "cm-b3515bb3-6dc6-427b-b759-a8ffbe315035",`
+
+`"uploadId": null,`
+
+`"indexRequestKey": null,`
+
+`"currentState": "ERROR",`
+
+`"runType": "MANUAL",`
+
+`"createdAt": 1538686825.000000000,`
+
+`"modifiedAt": 1538686974.000000000,`
+
+`"latestPhase": null,`
+
+`"currentPhase": null,`
+
+`"removed": false,`
+
+`"rowsInserted": 0,`
+
+`"bytesInserted": 0,`
+
+`"startedBy": "1373100376",`
+
+`"cancelledBy": null,`
+
+`"dataTag": null,`
+
+`"peakMemoryUsedBytes": null,`
+
+`"peakMemoryCommittedBytes": null,`
+
+`"errors": [{`
+
+`"id": 12422,`
+
+`"streamId": 955,`
+
+`"executionId": 16,`
+
+`"category": "CONNECTOR",`
+
+`"code": 8000,`
+
+`"message": "Failed to execute import successfully.",`
+
+`"invalidatesExecution": false,`
+
+`"parameters": null`
+
+`},`
+
+`{`
+
+`"id": 12423,`
+
+`"streamId": 955,`
+
+`"executionId": 16,`
+
+`"category": "CONNECTOR",`
+
+`"code": 1,`
+
+`"message": "java.lang.RuntimeException: com.domo.connector.util.MagicException: Domo system error encountered processing your data. We are working to resolve this issue (Temporary Internal Connector Error).",`
+
+`"invalidatesExecution": false,`
+
+`"parameters": {`
+
+`"stacktrace": "com.domo.dap.container.exception.ContainerServiceException: java.lang.RuntimeException: com.domo.connector.util.MagicException: Domo system error encountered processing your data. We are working to resolve this issue (Temporary Internal Connector Error).\n\tat com.domo.dap.container.data.DataStreamContainerService.writeData(DataStreamContainerService.java:142)\n\tat com.domo.dap.container.data.SingleThreadDataStreamService$2.call(SingleThreadDataStreamService.java:78)\n\tat com.domo.dap.container.data.SingleThreadDataStreamService$2.call(SingleThreadDataStreamService.java:73)\n\tat com.domo.dap.container.data.SingleThreadDataStreamService$6.call(SingleThreadDataStreamService.java:174)\n\tat com.domo.dap.container.data.SingleThreadDataStreamService$6.call(SingleThreadDataStreamService.java:170)\n\tat java.util.concurrent.FutureTask.run(FutureTask.java:266)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)\n\tat java.lang.Thread.run(Thread.java:748)\nCaused by: java.lang.RuntimeException: com.domo.connector.util.MagicException: Domo system error encountered processing your data. We are working to resolve this issue (Temporary Internal Connector Error).\n\tat com.domo.connector.reader.DataReaderImpl.getDataSchema(DataReaderImpl.java:141)\n\tat com.domo.connector.util.DataCollectorImpl.getDataSchema(DataCollectorImpl.java:230)\n\tat com.domo.connector.general.GeneralConnector.getDataSchema(GeneralConnector.java:129)\n\tat com.domo.dap.container.data.WrappedDataStream.getDataSchema(WrappedDataStream.java:74)\n\tat com.domo.dap.data.impl.json.JsonDataStreamWriter.writeStream(JsonDataStreamWriter.java:91)\n\tat com.domo.dap.data.impl.json.JsonDataStreamWriter.writeStream(JsonDataStreamWriter.java:81)\n\tat com.domo.dap.container.data.DataStreamContainerService.writeData(DataStreamContainerService.java:132)\n\t... 8 more\nCaused by: com.domo.connector.util.MagicException: Domo system error encountered processing your data. We are working to resolve this issue (Temporary Internal Connector Error).\n\tat com.domo.connector.reader.DataReaderImpl.getColumnMetaData(DataReaderImpl.java:262)\n\tat com.domo.connector.reader.DataReaderImpl.getDataSchema(DataReaderImpl.java:126)\n\t... 14 more\nCaused by: java.lang.RuntimeException: Duplicate columns found: [Target Object ID.Type]\n\t... 16 more\n"`
+
+`}`
+
+`},`
+
+`{`
+
+`"id": 12424,`
+
+`"streamId": 955,`
+
+`"executionId": 16,`
+
+`"category": "CONNECTOR",`
+
+`"code": 1,`
+
+`"message": "CM-527:ContainerGetDataFailed[runId=cm-b3515bb3-6dc6-427b-b759-a8ffbe315035|container=Container\{id=ContainerId{url=[http://127.0.0.1:5762](http://127.0.0.1:5762), pid=6555}}]: com.domo.dap.container.client.exception.ContainerClientException: get data request failed with status code: 500",`
+
+`"invalidatesExecution": false,`
+
+`"parameters": {`
+
+`"stacktrace": "com.domo.dap.exception.DapException: CM-527:ContainerGetDataFailed[runId=cm-b3515bb3-6dc6-427b-b759-a8ffbe315035|container=Container\{id=ContainerId{url=[http://127.0.0.1:5762](http://127.0.0.1:5762), pid=6555}}]: com.domo.dap.container.client.exception.ContainerClientException: get data request failed with status code: 500\n\tat com.domo.dap.container.manager.container.impl.JvmDataStreamContainer.doGetData(JvmDataStreamContainer.java:225)\n\tat com.domo.dap.container.manager.container.impl.JvmDataStreamContainer.bufferData(JvmDataStreamContainer.java:164)\n\tat com.domo.dap.container.manager.impl.ContainerServiceImpl.waitForData(ContainerServiceImpl.java:267)\n\tat com.domo.dap.container.manager.runtime.run.ImportTaskRun.waitForData(ImportTaskRun.java:70)\n\tat com.domo.dap.container.manager.runtime.run.ImportTaskRun.run(ImportTaskRun.java:35)\n\tat com.domo.dap.container.manager.runtime.TaskRunnerImpl.call(TaskRunnerImpl.java:61)\n\tat com.domo.dap.container.manager.runtime.TaskRunnerImpl.call(TaskRunnerImpl.java:22)\n\tat com.domo.dap.container.manager.runtime.util.ContextCallable.call(ContextCallable.java:18)\n\tat java.util.concurrent.FutureTask.run(FutureTask.java:266)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)\n\tat java.lang.Thread.run(Thread.java:748)\nCaused by: com.domo.dap.container.client.exception.ContainerClientException: get data request failed with status code: 500\n\tat com.domo.dap.container.client.http.HttpContainerClient.getData(HttpContainerClient.java:196)\n\tat com.domo.dap.container.manager.container.client.HttpServiceContainerClient.getData(HttpServiceContainerClient.java:72)\n\tat com.domo.dap.container.manager.container.impl.JvmDataStreamContainer.doGetData(JvmDataStreamContainer.java:223)\n\t... 11 more\nCaused by: org.apache.http.client.HttpResponseException: \n\tat com.domo.dap.container.client.http.HttpContainerClient.getData(HttpContainerClient.java:186)\n\t... 13 more\n"`
+
+`}`
+
+`}`
+
+`]`
+
+`}`
+
+3. Analyze the Error State  
+  
+    1. Begin by looking at the error section. The error section should begin with '`errors": [{...`'.  
+    2. You can almost always ignore anything with '`CM-*`'.
+
+- CM-527:ContainerGetDataFailed
+- ContainerClientException: get data request failed with status code: 500
+
+If we apply the two rules above, we end up with:
+
+`"errors": [{`
+
+`"id": 12422,`
+
+`"streamId": 955,`
+
+`"executionId": 16,`
+
+`"category": "CONNECTOR",`
+
+`"code": 8000,`
+
+`"message": "Failed to execute import successfully.",`
+
+`"invalidatesExecution": false,`
+
+`"parameters": null`
+
+`},`
+
+`{`
+
+`"id": 12423,`
+
+`"streamId": 955,`
+
+`"executionId": 16,`
+
+`"category": "CONNECTOR",`
+
+`"code": 1,`
+
+`"message": "java.lang.RuntimeException: com.domo.connector.util.MagicException: Domo system error encountered processing your data. We are working to resolve this issue (Temporary Internal Connector Error).",`
+
+`"invalidatesExecution": false,`
+
+`"parameters": {`
+
+`"stacktrace": "com.domo.dap.container.exception.ContainerServiceException: java.lang.RuntimeException: com.domo.connector.util.MagicException: Domo system error encountered processing your data. We are working to resolve this issue (Temporary Internal Connector Error).\n\tat com.domo.dap.container.data.DataStreamContainerService.writeData(DataStreamContainerService.java:142)\n\tat com.domo.dap.container.data.SingleThreadDataStreamService$2.call(SingleThreadDataStreamService.java:78)\n\tat com.domo.dap.container.data.SingleThreadDataStreamService$2.call(SingleThreadDataStreamService.java:73)\n\tat com.domo.dap.container.data.SingleThreadDataStreamService$6.call(SingleThreadDataStreamService.java:174)\n\tat com.domo.dap.container.data.SingleThreadDataStreamService$6.call(SingleThreadDataStreamService.java:170)\n\tat java.util.concurrent.FutureTask.run(FutureTask.java:266)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)\n\tat java.lang.Thread.run(Thread.java:748)\nCaused by: java.lang.RuntimeException: com.domo.connector.util.MagicException: Domo system error encountered processing your data. We are working to resolve this issue (Temporary Internal Connector Error).\n\tat com.domo.connector.reader.DataReaderImpl.getDataSchema(DataReaderImpl.java:141)\n\tat com.domo.connector.util.DataCollectorImpl.getDataSchema(DataCollectorImpl.java:230)\n\tat com.domo.connector.general.GeneralConnector.getDataSchema(GeneralConnector.java:129)\n\tat com.domo.dap.container.data.WrappedDataStream.getDataSchema(WrappedDataStream.java:74)\n\tat com.domo.dap.data.impl.json.JsonDataStreamWriter.writeStream(JsonDataStreamWriter.java:91)\n\tat com.domo.dap.data.impl.json.JsonDataStreamWriter.writeStream(JsonDataStreamWriter.java:81)\n\tat com.domo.dap.container.data.DataStreamContainerService.writeData(DataStreamContainerService.java:132)\n\t... 8 more\nCaused by: com.domo.connector.util.MagicException: Domo system error encountered processing your data. We are working to resolve this issue (Temporary Internal Connector Error).\n\tat com.domo.connector.reader.DataReaderImpl.getColumnMetaData(DataReaderImpl.java:262)\n\tat com.domo.connector.reader.DataReaderImpl.getDataSchema(DataReaderImpl.java:126)\n\t... 14 more\nCaused by: java.lang.RuntimeException: Duplicate columns found: [Target Object ID.Type]\n\t... 16 more\n"`
+
+`}`
+
+`},`
+
+If you read this closely, you will find that the error is '`Duplicate columns found: [Target Object ID>Type]`'. You will want to slow down when looking through these. It will take time, but you will get used to it with practice.
+
+## Basic Steps
+
+Customers Connector issues seem to fall in the following 3 categories:
+
+Below are a few basic steps you can follow to begin understanding why the Connector issue is occurring.
+
+<Note>**Note:** This is not a comprehensive list of everything that could be done to troubleshoot. These are the basic building blocks to start and often times you must go further.</Note>
+
+### Connector Not Running/Erring
+
+#### Check Connector Error
+
+Development tries to write explanatory errors to give the customer direction as to where to go and what they should do. You should always first check the error that the Connector is outputting. Access the Connector errors by navigating to the History tab of the DataSet.
+
+##### Connector Error Examples
+
+- **"Domo is ready, but..."**
+
+This is Domo's way of saying that there isn't an issue on Domo's end of this connection and that the issue lies somewhere on their API.
+
+`"Domo is ready, but you don't have access to the associated account. Please contact the account owner and have them share the account with you."`
+
+`"Domo is ready, but the item you are searching for was not found. It may take 24 hours before a file is visible after upload."`
+
+`Domo is ready, but Google Plus platform responded with an error - Invalid Credentials."`
+
+`Domo is ready, but Salesforce returned a 'MALFORMED_QUERY' error. Please fix the query and try again. Details: MALFORMED_QUERY : SELECT 1 ^ ERROR at Row:1Column:7 unexpected token: '1' API Call: [https://domo.mysalesforce.com/servic...ery?q=SELECT+1](https://domo.mysalesforce.com/servic...ery?q=SELECT+1)"`
+
+`Domo is ready, but the file is malformed. Zip bomb detected! The file would exceed the max ratio of compressed file size to the size of the expanded data. For security reasons, this file is not allowed."`
+
+The customer simply needs to check on what the error message is referencing and fix the issue. Now, the customer can certainly dispute the error such as "But the file has been there for over 24 hours", "But the file isn't a Zip Bomb and works perfectly fine!", or "But, this exact query works in Salesforce."
+
+However, we need proof. We need to verify it isn't a situation such as [this](https://www.youtube.com/watch?v=zSSoYmQS6Ng).
+
+We don't want to send the inhaler back to the manufacturer saying it is faulty, or in our case, the Connector back to Development saying it's bad until we make sure everything is in line and good to go first.
+
+Many times with these errors you can find the API call we're making in the Error State. It will be right around the "Domo is ready" part. This can be given to the customer, they can then ask to speak to the "Waiters" (open a ticket with the source system) and get assistance from them.
+
+- **Temporary Internal Connector Error**
+
+This error is semi-common among all connectors and usually requires a JIRA ticket to be filed to improve the error messaging. To troubleshoot, follow the steps to [Check the Error State For More Details](#h_6f960de8-44e3-4eb1-a29c-203f6cfceae4).
+
+<Tip>**Tip:** We NEVER want to drop the customer off and walk away. Anytime we send them somewhere outside of Domo, be sure to always leave the door open for them to come back. For example, use wording such as this: **"Looks like this error is coming from the GreenHouse API. Here is the info and you will need to speak with them. Please feel free to CC me on the conversation and I would love to work together with GreenHouse to get this resolved for you."**   
+  
+The customer knows they have an ally, and we've established this isn't our fault. Things can continue to move forward.</Tip>
+
+#### Check the Error State for More Details
+
+<Tip>**Tip:** To go above and beyond, can you find the error in the source's API Documentation?  This will not only speed up our investigation if it goes back to development but also speeds up the customers.</Tip>
+
+When a program fails, typically the error includes "This stack trace may have critical information for us to help the customer further. Otherwise, development will want this on their Jiras.
+
+See [Understanding Error States](#h_93a2bc52-336d-4ada-ba6a-8be4216b2f61) for more information on how to read them.
+
+1. Check the Error State by running [IDDQDomo](/s/article/360042935514).
+2. Copy the Error State JSON and paste it into your JsonViewer tool.
+3. Analyze the code for the root error.
+4. If the error message presented to the user in the history tab of the connector was not something they were able to understand and resolve themselves, then we should report the issue as a bug.
+5. If we had to use the Error State to get the customer an answer to the root cause, we should report the issue as a bug to improve our error messaging.
+
+##### Error State Error Examples
+
+- GC Overhead Limit
+- Java HeapSpace
+
+#### Check JIRA
+
+If you have decided that a JIRA bug should be filed, you should always check to see if this issue has already been reported. We do not want to be duplicating tickets. Trevor Beck is the monitor on the Connector development team and he will many times already have bugs for issues they have run in to on their own.
+
+1. Check JIRA for existing tickets. An easy, effective way to search through existing bug tickets is to filter to all tickets created recently for the connector in question and sort by created date.  
+     
+   "`Components = GreenHouse ORDER BY created DESC`"  
+     
+   If you're still not seeing any tickets that match your issue, make your search a bit broader.  
+     
+   "`text ~ "duplicate columns" and SQUAD = Connectors`"  
+     
+   If you find a ticket that matches, go through the process to check with an L2.
+2. If you are unable to find a matching JIRA ticket, then continue with the normal bug creation process starting with [replication](#h_da63eae5-8f27-490a-aab5-a5c0c46b8d8a).
+
+#### Replicate and Dig Deeper
+
+You have now found the error, determined a JIRA ticket does not currently exist, and it seems to be something the customer is not able to fix on their own. So, you will need to continue forward with creating a ticket for development. Before the ticket can be created, you need to get as close to the root cause as possible.
+
+1. Create a duplicate  
+     
+   Look at the connector the customer is using and make a new one with the same settings as the broken one. If the new one succeeds, we can eliminate many possibilities for the failure. This greatly helps us zero in on the issue.
+2. If the duplication fails, ask yourself the following questions:  
+     
+   Is it all the DataSets of that connector or just this one?  
+   Is it all reports? Does choosing another one work?  
+   Is there another DataSet running this report that is working?  
+   Does the date range make a difference?  
+   Is there a better connector they should be using for this?
+
+The answers to these questions should be provided in your JIRA ticket and will be incredibly useful for development.
+
+#### Wrap Up and Bug
+
+You have found the error, narrowed down when or where the bug happens, and you've informed the customer that you're working on this bug while hopefully being able to give them a workaround. At this point, grab an L2 through the appropriate processes. The L2 will expect that the previous steps have been done to move forward quickly and efficiently.
+
+### Data Does Not Match or is Incorrect
+
+These cases are typically much messier than erring connectors and many times it is the "waiter's" error and not Domo. Click [here](https://www.youtube.com/watch?v=s7wmiS2mSXY) to review the video above that explains APIs in terms of waiters. However, Domo is guilty until proven innocent, so what do you do?
+
+#### Get to the Root Complaint
+
+You need to work with the customer and get to a point of understanding what they're looking for or expecting to see. You don't want to waste time trying to solve an issue they don't have. Get a clear and concise idea from them and then reiterate it back to them.
+
+"So, the users in Domo are low based on what you're seeing on your side, is that correct?"
+
+#### Proof the Connector
+
+You've now clarified the root complaint with the customer. Let's figure out where in Domo they are seeing these differing numbers. If the customer directs you to a card, ask yourself the following questions:
+
+- Is the card using a BeastMode that is using multiple and complicated functions?
+- Is the card attached to a DataFlow that is doing many transformations?
+
+Either of the two scenarios above means it may not be a connector issue. You need to look at a card that is built directly from the connector in question. The goal here is to compare the raw data. Once you find the source DataSet, take a look to see if it is doing anything silly. Silly things include:
+
+- Appending 30 days of data daily
+- Appending today's data multiple times a day
+- DataSet has not run in the past few days
+
+Create a new DataSet and try to replicate theirs by applying the exact same settings. Except, see if narrowing the data changes anything. For example, if they are pulling 360 years with 12 metrics, but the data for users is the only wrong one and it's only wrong in January, make a DataSet that only pulls data for the January date range. You'll want to work with the smallest amount of data that still replicates the issue.
+
+#### Proof the Customer
+
+It is our job to ensure that the customer is well educated so they know how to compare apples to apples. Many times the customer is looking at a report in their API that does not match the configuration they have set up in Domo.
+
+If a customer claims a specific field should be higher, ask them to show you. See what they see and try to look through their eyes. A full screenshot of the UI they are looking at is preferable.
+
+#### Proof the API (Waiter)
+
+Find the API documentation and see if it mentions anything about what you're seeing.
+
+##### Examples
+
+Get comfortable with reading over API documentation. It will be an invaluable resource.
+
+- **"My Google Analytics data from yesterday is wrong"**
+
+24-48 hour latency. See [Google's API documentation](https://support.google.com/analytics/answer/1070983?hl=en) for more information.
+
+- **"My Stripe data is wrong. Instead of $10 it's showing $1000"**
+
+Stripe provides data in the currency's smallest unit. See [Stripe's API documentation](https://stripe.com/docs/currencies#zero-decimal) for more information.
+
+- **"I'm only getting 30 rows of data when I run this."**
+
+30 rows of data happen to be the max amount of rows per page that can be pulled. See [Zendesk's API documentation](https://develop.zendesk.com/hc/en-us/articles/360001068607-Paginating-through-lists) for more information.
+
+#### JIRA and Development
+
+[Check JIRA](#h_dee73bb4-e5b6-418b-a915-be5a3d0bc6d5) for any tickets already submitted on this issue. If you are unable to find an existing ticket, compile your information together and hand this over to an L2. They can pull the raw call and the raw return to see if anything is amiss.
+
+### Cannot Connect With Their Credentials
+
+It may seem logical that an Admin should have access to everything, but for APIs, there is usually something extra or special.
+
+#### Examples
+
+- **S3 requires you to set up a separate user with Programmatic Access and specific profiles.**
+- **Microsoft OneDrive requires you to set up APPS with specific items.**
+- **Enterprise Connectors need you to create an app with a redirect URI.**
+- **Exact Target has permissions that have to be set up, otherwise, you'll get**"`<faultstring>User not authorized</faultstring>`".
+- **OutBrain requires you to fill out a [form](https://lp.outbrain.com/partner-api-form/) for access.**
+- **Jira on premise usually has whitelisting and we need to be added to that.**
+
+With over 500 Connectors, each connecting to a different API, there are many examples of why a user can't properly connect to their API that is not considered a bug. So, what do you do when you get a case like this?
+
+### Are Other DataSets Running?
+
+Sometimes you'll find that Bob from accounting is using a different DataSet other than the one in question, but it is using the same connector. His account must have the right level of access to pull in the data without issue. Let the user know that they should work with the administrator of the source program (Salesforce or Google Analytics) to see what access Bob has that they do not.
+
+### Proof of API Access
+
+Ask the user to verify their API access. This will most likely require them to contact the source system or their administrator. Check the API documentation to see if you can glean anything specific that they might need to do such as those highlighted in the [examples](#h_0ea8c693-cc46-46e0-8b3a-1361b9289540) above. Whitelisting many times is the issue. Many companies let users whitelist who can and cannot have access to the platform.
+
+### Get Credentials
+
+If you have reached this point, you will need to work with an L2, using the appropriate methods, to discuss the best way forward.
+
+At this point, there is little more that can be done. The customer has proven to the best of their ability that they have API access. We are most likely going to need to obtain their API credentials.
+
+What do we do with the customer's credentials?
+
+## Final Thoughts
+
+- **Understand the root complaint**  
+  Arguably the most important step. If we do not fully understand what their complaint is, we can spend many useless cycles fixing something they do not care about.
+- **Be patient**  
+  The customer is likely frustrated. They need this working and they can feel like they are blocked from working on their task because of Domo. Let them know we will do everything in our power to help them out. Remember, they are not mad at YOU. Shrug it off and move forward to help them.
+- **Ask lots and lots of questions**  
+  Try to hone in on what their real issue is. Many times they call in complaining about a DataSet being wrong, but after asking enough questions, we find that is is a card, and investigating further, their BeastMode is the culprit. It could even start as a card issue but after further questions, it leads back to the DataSet.  
+    
+  Ask questions such as:  
+    
+  What are you expecting?  
+  What is your end goal?​  
+  Did this work before, or has it never worked?
+
+​​​​​​This may seem consultative, but this information can help better diagnose the issue they are having.
+
+Lastly, here is a random inspirational [video](https://www.youtube.com/watch?v=d6wRkzCW5qI) courtesy of Ryan!

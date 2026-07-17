@@ -1,0 +1,43 @@
+---
+title: "Data Mismatch Troubleshooting"
+---
+
+### To You, The L1 Support Agent
+
+With any data discrepancy issues, there are a few things to check first
+
+1) Have they shown which specific, unaggregated values are different? Row counts and aggregations only indicate that there IS a discrepancy. We need to know which specific rows of raw data are off.
+
+2) Are they comparing apples to apples? When they look at their source of truth (data provider UI, export from data provider, etc.) is it pulling ALL of the same columns and for the same dates.
+
+Once we can get this information, the customer can usually fix the issue themselves. If not, we can get the API call.
+
+### Here is what we should send to the customer
+
+With any data discrepancy issues, there are a few things to check first
+
+1) Are there any unaggregated values that are \_\_\_\_\_\_? Row counts and aggregations only indicate that there IS a discrepancy. We need to know which **specific rows of raw data** are off.
+
+(Fill in the blank with the specific type of discrepancy)
+
+2) Frequently data discrepancies happen when the metrics being pulled into Domo are not the same as the metrics in your source data, can you provide a copy of your source data so we can compare?
+
+(make sure the schema matches and the aggregation and date range is the same)
+
+---
+
+Once we have this information we will also want to pull the API call (See API call format thing)
+
+Once we get a reply back from the L3 team with the API call send this message to the customer:
+
+Hello,
+
+We have pulled the API call that we are making to get the results you see in Domo from the Data Provider. There are no additional transformations or filtering occuring once we receive that data.
+
+<API call>
+
+To determine why these results differs from what you expect, we will want to get your Data Provider involved to help explain why they are responding to this call with the faulty data. Would you be able to reach out to your Data Provider with this call to get additional information on how to get the results you expect?
+
+Thank you,
+
+(you may replace “Data Provider” with the name of the Data Provider)

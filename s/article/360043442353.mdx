@@ -1,0 +1,80 @@
+---
+title: "Connector Authentication Troubleshooting"
+---
+
+## Types Of Authentication In Domo
+
+1. Direct Authentication
+2. Writeback Authentication
+3. OAuth
+4. SFTP
+5. Database
+
+## Terminology Reference
+
+Domo Account - The credentials that they use to long into Domo
+
+Connector Account - The set of credentials they have entered into Domo for a specific connector that can be found in the accounts section in Domo
+
+Data Provider Account -The account that we are trying to connect to, for example with the Facebook connector the data provider account would be their Facebook account (The credentials for this are saved in the connector account in Domo once they have authenticated)
+
+## Direct Authentication Troubleshooting
+
+If the User is entering credentials (such as a username and password or a client and secret) directly into Domo with no OAuth pop-up they are using Direct Authentication.
+
+To begin troubleshooting follow the steps below.
+
+1. Check the access of the Data Provider Account that the credentials belong to
+2. Check the role of the Data Provider Account for whom the token or client id and secret have been created
+3. Get the API call from the API documentation to send to the customer so they can check with the data provider for issues with the API call we are using.
+
+If these criteria are met and the issue is still happening then we will need the customer's credentials in a zip file.
+
+Once you have asked them if they are willing to provide credentials, click here for the template that you can use to request the credentials \*\*\*\*BrendanPutTheAnchor
+
+## Writeback and Dataset Copy
+
+For any Writeback and DataSet Copy connections, you will follow the steps for Direct Authentication and go through steps 1 and 2 for the Domo Account (Including the Client ID/Secret or Token) they are using
+
+## OAuth
+
+If at any point during the authentication process a pop window to the data provider opened then the connector is using OAuth and you will need to follow the steps below.
+
+The first step is to identify where the login issue is occurring:
+
+1. Before the user is able to enter credentials or attempt to log in
+
+   - Check the redirect URL. These are often listed in the KB for the connector. If they are not, check jira to see if dev has provided the redirect URL in the past.
+   - If possible, try to create a new connector yourself on a test prod instance for the user’s prod. Remember that you will not be able to navigate to data provider pop-up window in the VCR
+   - If neither of the above is successful, get test credentials and board the case for the connector L2 to approve
+2. An error while attempting to log in within the OAuth window
+
+   - If the user is getting an error with their credentials in the OAuth window, they will need to contact their Data Provider. Domo has no visibility into the credentials entered or error messages received in this window. Until they authenticate and the Data Provider sends us an auth token, there is nothing additional we can do.
+3. Customer is able to authenticate or does not see an error message after authenticating, but the Connector Account is not created
+
+   - If there is no error message, but the account is not created, check to see if this account might already exist for the user.
+   - Most connectors only allow for one Connector Accounts per one Data Provider Account. This allows us to stagger calls and prevent hitting API limits.
+   - Try removing the old account (make sure there are no DataSets associated with it) and adding a new account again
+   - If possible, try recreating this yourself with a test account or you can get test credentials and recreate it in a test environment on the same prod as the customer.
+   - Board the case for the connector L2
+
+- If there is an error message here, you can immediately get test credentials and board the case for the connector L2 to approve
+
+## SFTP
+
+SFTP
+
+With any SFTP connector other than the CSV SFTP Push Connector then first have them
+
+1. Check whitelisting on the SFTP site
+2. Try to connect via filezilla or cyberduck
+
+> *Thank you for being willing to help us out with credentials. To ensure they stay safe, I would like for you to send them in a password protected file. The password to use will be sent to the email address <contact\_email> separately.*
+>
+> *If you're not sure how to password protect your file here are some helpful guides:*
+>
+> *Windows: [https://www.intowindows.com/how-to-c...in-windows-78/](https://www.intowindows.com/how-to-create-zip-file-with-password-in-windows-78/)*
+>
+> *Mac: [http://osxdaily.com/2012/01/07/set-z...word-mac-os-x/](http://osxdaily.com/2012/01/07/set-zip-password-mac-os-x/)*
+>
+> *Let me know if you have any questions.*

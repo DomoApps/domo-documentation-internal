@@ -1,0 +1,56 @@
+---
+title: "Embed Content Outside of Domo - 3rd Party Analytics"
+---
+
+### Intro
+
+<Warning>**Important:** This content is for internal users only. Do not share this article with non-Domo employees.</Warning>
+
+This article provides information on setting up third-party analytics for customers when embedding Domo content externally.
+
+Setting up third-party analytics includes four steps:
+
+- Submitting an approval form
+- Enabling a feature switch
+- Obtaining a code snippet
+- Submitting an EC ticket.
+
+Each step is described in detail below.
+
+---
+
+### Approval Form
+
+Complete this [form](https://domo.domo.com/approval/create-request/58995607-e71b-44cc-bfa6-f990f16054f9) 
+
+<!-- TODO: embed image → https://domo.file.force.com/servlet/rtaImage?eid=ka0Vq0000006yZN&feoid=00N5w00000Ri7BU&refid=0EMVq000004SHoP -->
+
+ to submit a new customer request for more reporting using a third-party analytics solution. The form requests information on the customer instance(s), the customer use case, and the customer code snippet to be added.
+
+### Feature Switch
+
+The following feature switch must be enabled for a customer to use third-party analytics with embed: `embed-analytics`.
+
+### Code Snippet
+
+You can get code snippets from the following analytics solutions. Any applicable processes are described in the table.
+
+| Solution | Process |
+| --- | --- |
+| FullStory | Follow these steps to obtain a code snippet from a customer's FullStory base:   1. Add `window['_fs_run_in_iframe'] = true`to the top of their provided code snippet. 2. Ensure there are no typos in the FullStory code.    1. `src=https://+l` [+l] should be a string value  `o.src="https://"+l` |
+| PostHog | N/A |
+| MouseFlow | N/A |
+
+### EC Ticket
+
+After filling out the approval form, enabling the feature switch, and obtaining the code snippet, you can create an EC ticket to set the following customer property:
+
+- **Service Endpoint** **—**`Identity: Set Customer Property`
+- **Key —** `embed.analytics`
+- **Value —**Base64 code snippet and enable safe URL encoding
+
+See the [EC ticket example](https://onjira.domo.com/browse/EC-53246) 
+
+<!-- TODO: embed image → https://domo.file.force.com/servlet/rtaImage?eid=ka0Vq0000006yZN&feoid=00N5w00000Ri7BU&refid=0EMVq000004SLFJ -->
+
+ for more information.

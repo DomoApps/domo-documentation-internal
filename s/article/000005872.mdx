@@ -1,0 +1,189 @@
+---
+title: "Troubleshooting App Studio"
+---
+
+### Intro
+
+Customer-reported issues with App Studio typically fall into the following categories. Follow the links to see root causes and troubleshooting steps for the most common issues in each category:
+
+Below, you can also find information about other App Studio-specific issues and what information to collect from customers during troubleshooting:
+
+---
+
+# General Functionality Issues
+
+| Issue | Item | Description |
+| --- | --- | --- |
+| **App Not Loading** | Root Cause | Session timeout, caching, or permission restrictions. |
+| Troubleshooting | - Clear browser cache and cookies - Confirm the user is logged in with valid Domo credentials - Check the browser console for network/JS errors |
+| Resolution | Reload the app after clearing the cache and reauthenticate. |
+| Prevention | Use the latest supported browsers. |
+
+| Issue | Item | Description |
+| --- | --- | --- |
+| **Blank Screen on App Preview** | Root Cause | Unbound components or broken script references |
+| Troubleshooting | - Verify DataSets are linked correctly - Inspect console for script errors - Check layout visibility settings |
+| Resolution | Rebind data, fix broken scripts, and reset visibility. |
+| Prevention | Validate the preview after major changes. |
+
+| Issue | Item | Description |
+| --- | --- | --- |
+| **Broken Layout/Grid Issues** | Root Cause | Overlapping elements or responsive design errors. |
+| Troubleshooting | - Use device preview modes - Check container, row, and grid configs - Test resizing behavior |
+| Resolution | Fix grid units, margins, paddings, and container structure. |
+| Prevention | Test layouts on desktop and mobile during design. |
+
+| Issue | Item | Description |
+| --- | --- | --- |
+| **Buttons Not Responding** | Root Cause | Missing action mapping or JS errors. |
+| Troubleshooting | - Inspect button action configuration - Check JS errors on click events in the console - Confirm the button isn’t covered by other layers |
+| Resolution | Map correct actions, fix JS, and bring the button forward. |
+| Prevention | Use naming conventions for clickable components. |
+
+| Issue | Item | Description |
+| --- | --- | --- |
+| **Widgets Not Displaying Correctly** | Root Cause | Incorrect data binding, hidden layers, or missing styles. |
+| Troubleshooting | - Verify data mapping to widget fields - Confirm widget visibility is enabled - Test on different screen sizes |
+| Resolution | Adjust widget settings and styling. |
+| Prevention | Use consistent naming and grouping logic. |
+
+# Data and Connectivity Issues
+
+| Issue | Item | Description |
+| --- | --- | --- |
+| **Data Not Displaying** | Root Cause | Broken DataSet binding or missing fields. |
+| Troubleshooting | - Verify the correct DataSet is linked - Check that the DataSet contains data, filters, and calculated fields |
+| Resolution | Rebind or update the DataSet. |
+| Prevention | Verify sample data before binding. |
+
+| Issue | Item | Description |
+| --- | --- | --- |
+| **DataSet Not Updating** | Root Cause | DataSet refresh failures or ETL errors. |
+| Troubleshooting | - Review the DataSet's update history in Domo - Check ETL/connector health - Trigger a manual refresh |
+| Resolution | Repair the ETL/connector; reschedule a refresh. |
+| Prevention | Monitor alerts and update logs. |
+
+| Issue | Item | Description |
+| --- | --- | --- |
+| **Data Mapping Errors** | Root Cause | Mismatched columns or incompatible data types. |
+| Troubleshooting | - Confirm that widget field names match DataSet columns - Validate data formats and Beast Mode syntax |
+| Resolution | Standardize schema and transform data as needed. |
+| Prevention | Lock critical DataSet schemas. |
+
+| Issue | Item | Description |
+| --- | --- | --- |
+| **API Integration Failure** | Root Cause | Invalid endpoints, auth failure, or CORS errors. |
+| Troubleshooting | - Validate API URL and method - Check API tokens and console errors (403, 500, CORS) |
+| Resolution | Update tokens/endpoints; catch errors in code. |
+| Prevention | Use test environments before production. |
+
+| Issue | Item | Description |
+| --- | --- | --- |
+| **Custom Script Errors (JS/HTML/CSS)** | Root Cause | Syntax errors or invalid references. |
+| Troubleshooting | - Check the browser console for errors - Use validators (JS Lint, CSS validators) - Isolate issues by commenting out code parts |
+| Resolution | Fix code syntax and DOM references. |
+| Prevention | Maintain staging app versions before production deployment. |
+
+# Publishing and Deployment Issues
+
+| Issue | Item | Description |
+| --- | --- | --- |
+| **App Fails to Publish** | Root Cause | Validation errors or unsaved changes. |
+| Troubleshooting | - Confirm all components are configured - Address error prompts and console logs |
+| Resolution | Fix misconfigurations; save and try again. |
+| Prevention | Always save and validate pre-publish. |
+
+| Issue | Item | Description |
+| --- | --- | --- |
+| **Changes Not Reflecting Post-Publish** | Root Cause | Browser cache or a wrong version was published. |
+| Troubleshooting | - Perform a hard refresh (**Ctrl**+**Shift**+**R**) - Confirm the live app version. - Ensure changes were saved before publishing |
+| Resolution | Republish the latest version; clear cache. |
+| Prevention | Use version naming conventions. |
+
+| Issue | Item | Description |
+| --- | --- | --- |
+| **Versioning Conflicts** | Root Cause | Concurrent edits by multiple users. |
+| Troubleshooting | - Check version history and editors - Revert to a stable version if needed - Manage editing permissions |
+| Resolution | Restore and coordinate edits |
+| Prevention | Limit concurrent editing; schedule edit windows. |
+
+| Issue | Item | Description |
+| --- | --- | --- |
+| **Access Denied Post Deployment** | Root Cause | Improper sharing or role restrictions. |
+| Troubleshooting | - Verify app share settings and user/group permissions - Confirm DataSet access |
+| Resolution | Adjust sharing and roles. |
+| Prevention | Share with roles and users consistently during deployment. |
+
+# User Access and Permissions Issues
+
+| Issue | Item | Description |
+| --- | --- | --- |
+| **User Cannot View/Edit App** | Root Cause | Insufficient privileges or unshared app. |
+| Troubleshooting | - Confirm explicit app sharing with the user - Check “Edit” vs. “View” rights - Verify DataSet/page-level access |
+| Resolution | Modify permissions or re-share. |
+| Prevention | Use predefined roles/groups for streamlined access control. |
+
+| Issue | Item | Description |
+| --- | --- | --- |
+| **Edit Mode Not Available** | Root Cause | User lacks edit permission, or the app is locked. |
+| Troubleshooting | - Confirm the user has edit rights - Check if the app is locked by another editor - Attempt to take control if available |
+| Resolution | Grant permissions or wait for the lock to release. |
+| Prevention | Limit edit access to essential users; communicate schedules. |
+
+# Performance Issues
+
+| Issue | Item | Description |
+| --- | --- | --- |
+| **Slow Load Times** | Root Cause | Large DataSets, complex visuals, or custom code. |
+| Troubleshooting | - Identify large DataSets or heavy components - Use DevTools to check render times - Review code for inefficiencies |
+| Resolution | Simplify layout, paginate data, and optimize visuals/code. |
+| Prevention | Test performance regularly; set benchmarks. |
+
+| Issue | Item | Description |
+| --- | --- | --- |
+| **Frequent Timeouts** | Root Cause | Server delays or heavy client processing. |
+| Troubleshooting | - Test APIs and DataSet queries separately - Monitor for memory leaks in custom scripts - Reduce widgets per page |
+| Resolution | Optimize and modularize code. |
+| Prevention | Use async data loads; keep pages modular. |
+
+# UI/UX and Mobile Issues
+
+| Issue | Item | Description |
+| --- | --- | --- |
+| **Mobile Layout Broken** | Root Cause | Lack of responsiveness or missing mobile overrides. |
+| Troubleshooting | - Use mobile preview mode in App Studio - Adjust grid, fonts, and widget scaling - Test on various device simulators |
+| Resolution | Design custom mobile layouts or add CSS media queries. |
+| Prevention | Adopt a mobile-first design or maintain a separate mobile version. |
+
+| Issue | Item | Description |
+| --- | --- | --- |
+| **Font/Icon Inconsistencies** | Root Cause | Missing font imports, style conflicts, or browser differences. |
+| Troubleshooting | - Verify font/icon library links - Inspect conflicting CSS - Test across browsers |
+| Resolution | Re-import or standardize font/icon libraries. |
+| Prevention | Use Domo-supported fonts/icons and limit external dependencies. |
+
+### Other App Studio-Specific Issues
+
+The following App Studio-specific issues also sometimes occur:
+
+- Persistent Filters not working correctly
+- Color theme inconsistencies
+- Spacers are ignored on mobile
+- Hidden cards are not honored in mobile views
+- Issues with variables and global settings
+- Button behavior inconsistencies
+
+Troubleshooting these issues often involves verifying configurations, reapplying settings, and retesting on all devices.
+
+### Information to Collect from Customers
+
+Collect the following relevant information based on the reported issue:
+
+- **User details —** Full name, email, Domo role
+- **App information —** App name, workspace, version, mode (Edit/Preview/Published)
+- **Issue description —** Clear summary and reproduction steps
+- **Timestamp and frequency —** When the issue began, any recurrence pattern
+- **Browser and device info —** Browser/version, device type, OS/version
+- **Screenshots or recordings —** Error images, console logs, messages
+- **Network/connectivity —** VPN/internal/public Wi-FI, if the issue affects multiple users
+- **Access and permissions —** User's app and DataSet access confirmation

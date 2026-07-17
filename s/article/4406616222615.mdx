@@ -1,0 +1,27 @@
+---
+title: "Increasing Timeout for ADR Flows (Adrenaline DataFlow)"
+---
+
+## Intro
+
+By default, Adrenaline DataFlows have a timeout of 30 minutes. Requests to increase the timeout will go through Support.
+
+## Process for Assisting Customers with ADR Timeout Increase
+
+1. Customer logs a case in which an ADR flow is timing out. Customer requests an increase in the timeout.
+
+2. Support (potentially with help of a TSM) should review the current setup of the dataflow. Support should check for opportunities to improve the dataflow (remove joins on string values, filter to only required data, break up complex queries into smaller chunks, etc.)
+
+3. Finalize review, make any necessary changes, and confirm if the issue(s) are resolved. Support and/or a TSM will then submit a Jira ticket to engineering with the following information:
+
+a. Customer dataflow URL
+
+b. Review of optimizations discussed with customer
+
+c. Business justification
+
+d. If customer is in a POC or has paid for feature (work with your manager to gather this from the account in Salesforce)
+
+e. Current ACV of customer
+
+The Jira ticket should be sent to the DBA team who will do a further review of the request.

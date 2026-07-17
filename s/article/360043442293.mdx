@@ -1,0 +1,62 @@
+---
+title: "How to Request Magic ETL Scripting Tile Packages/Libraries"
+---
+
+<Warning>**Important:** This topic is for INTERNAL USE ONLY. Do NOT share any of the content in this page with customers!</Warning>
+
+<Note>**Note:** No package that talks out of the network can be added.</Note>
+
+---
+
+### Handling A Request
+
+When a customer requests a new package/library be made available in the Python or R scripting tiles, do the following:
+
+1. Check if the package/library is already available by searching for it in the packages list of the correct Magic ETL tile type (Python or R):  
+
+   
+<!-- TODO: embed image → https://domo.file.force.com/servlet/rtaImage?eid=ka05w00000123gq&feoid=00N5w00000Ri7BU&refid=0EM5w000005vOrT -->
+
+     
+   If it is already available, explain to the customer how to find it and close the case.  
+
+   
+<Note>**Note:** Step 2 is incorrect and is no longer part of the process.
+2. If it is not already available, search JIRA to see if it has already been requested:</Note>
+
+   
+<!-- TODO: embed image → https://domo.file.force.com/servlet/rtaImage?eid=ka05w00000123gq&feoid=00N5w00000Ri7BU&refid=0EM5w000005vOrU -->
+
+     
+     
+   If there is an existing JIRA request, add the customer account name and Salesforce Case ID to the JIRA, comment on the JIRA that a new customer has requested the same package, then escalate the Salesforce case to the DataFlow L2 and inform the customer that you have done so.
+3. If it has not been requested already, gather details on the package being requested, including a link to where it can be downloaded online.  
+     
+   For Python, the primary repository to search is PyPi:   
+   [https://pypi.org](https://pypi.org/)   
+
+   
+<!-- TODO: embed image → https://domo.file.force.com/servlet/rtaImage?eid=ka05w00000123gq&feoid=00N5w00000Ri7BU&refid=0EM5w000005vOrS -->
+
+     
+     
+   For R, the primary repository to search is CRAN:   
+   [https://cran.r-project.org/web/packages/available\_packages\_by\_name.html](https://cran.r-project.org/web/packages/available_packages_by_name.html)  
+
+   
+<!-- TODO: embed image → https://domo.file.force.com/servlet/rtaImage?eid=ka05w00000123gq&feoid=00N5w00000Ri7BU&refid=0EM5w000005vOrM -->
+
+     
+     
+   With this information, create a JIRA ticket detailing:  
+   - Scripting language [Python/R]  
+   - Package name  
+   - URL Link to package  
+   - Instance/s package is requested for  
+   - Name of user requesting the package  
+   - Requester's use-case (why do they want this package?)
+
+   
+<Note>**Note:** If a Customer requests a package that their company created (vs being publicly available), gather the all of the package files from the customer and attach those to the JIRA instead of linking to an online resource. Ask whether the customer wants the package to be kept private to one instance, added to multiple instances, or made available to all Domo users. Include all other details on the JIRA as usual.</Note>
+
+   Assign the JIRA and the SF case to the DataFlow L2.

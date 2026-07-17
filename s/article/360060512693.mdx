@@ -1,0 +1,62 @@
+---
+title: "Workbench Impersonation (Scheduled Jobs Not Running)"
+---
+
+## If Your Workbench Jobs Do Not Run On Schedule
+
+When this happens one of the main causes could be a lack of impersonation, which can cause an issue in the authentication process.
+
+To solve this we will be using the steps at the bottom of this article.
+
+The first thing you should do is explain the issue to the customer. There are a few ways you can do this but the most important thing is to make sure that the customer understands that by adding impersonation they are allowing Workbench to authenticate without manual intervention. This allows Workbench to perform the tasks you have set up (i.e. run a job) without running it manually.
+
+Use the steps below to go further in-depth and walk the customer through the impersonation process. If you run into any problem performing these steps please reach out to the Tier 2 team or a member of Support Management.
+
+ISSUE: Domo Workbench is not running jobs on schedule, or Workbench job completion count  
+is suddenly less than it used to be.
+
+IMPACTED JOBS: Jobs using the Domo ODBC Data Provider (Source data is from ODBC driver  
+connecting to SQL Server database). The database authentication method uses Windows NT  
+Authentication (not username and password) to authenticate users.
+
+CAUSE: A recent auto-update to Workbench version 5.0.7416.28075 can impact job  
+cryptography (unable to decrypt ODBC connection settings (username/password pair)) during  
+the installation of the latest version. This decryption error results in the ODBC job failing after  
+the installation of the new version.
+
+FIX ACTION:  
+Go to a job that is failing to run on schedule, (but is running from the Workbench Graphical  
+User Interface).
+
+From the Job Configure tab > Impersonation. Ensure that”Requires Impersonation” is checked  
+and Impersonation fields contain values (this is populated when using NT authentication) Click  
+"Validate." Note: This usually is your Windows Username and Password used to log into your  
+workstation. The domain is the domain your workstation is in (it is prepopulated). If it is not,  
+contact your IT department.
+
+From the Job Configure tab > Data > Source > Edit. Ensure that there are no populated fields  
+for Username/Password. Delete any values for Username/Password. Uncheck the "Requires  
+Credentials" if checked.
+
+Save the job by clicking on the "Save Disk Icon" in the upper right-hand corner of the  
+Workbench GUI.
+
+Note: If you use a Username/Password to log into the database instead of NT Authentication: From the Job Configure tab > Job Impersonation. Make sure none of the fields are populated. Delete any fields that are populated and save the job.
+
+The job ODBC credential is re-encrypted, and the job will now run on schedule.
+
+REPEAT THE PROCEDURE FOR EACH JOB THAT DOES NOT RUN ON SCHEDULE.
+
+ADDITIONAL CONTEXT: You may be asking the question, "Why did the job run from the GUI,  
+but not on a schedule?"
+
+When you run a job manually (from the GUI), you are in a current windows session (this is  
+called "User Context." ) The workbench knows how to log into the source database job because  
+there is a user currently logged into windows. The database uses this (NT Authentication) to log  
+into the database when the job is manually run.
+
+When you are running a job on a schedule, the workbench uses what is known as "Machine  
+Context." In this context, the windows session is controlled by the "Local System" account (this  
+is installed automatically when Windows OS is installed on a computer.) Machine Context does  
+not know how to log into the database so Job Impersonation is used to "impersonate a  
+windows user" who can log into the database.
