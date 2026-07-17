@@ -76,6 +76,12 @@ SF_KNOWLEDGE_OBJECT = os.environ.get("SF_KNOWLEDGE_OBJECT", "Knowledge__kav")
 _BODY_FIELD_CANDIDATES = ["Body", "ArticleBody", "Article_Body__c", "ARTICLE_BODY__C"]
 SF_BODY_FIELD = os.environ.get("SF_BODY_FIELD")  # set to skip auto-detection
 
+# Optional separate SID for domo.file.force.com image downloads.
+# If not set, SF_ACCESS_TOKEN is tried for images too.
+# Get this SID by opening a Salesforce image URL in your browser while logged in,
+# then copying the 'sid' cookie from the domo.file.force.com domain in devtools.
+SF_IMAGE_SID = os.environ.get("SF_IMAGE_SID")
+
 # ---------------------------------------------------------------------------
 # Logging
 # ---------------------------------------------------------------------------
@@ -300,6 +306,92 @@ def _write_mdx(path: Path, content: str) -> None:
     path.write_text(content, encoding="utf-8")
 
 
+# ---------------------------------------------------------------------------
+# Images-only patch pass (no API token needed)
+# ---------------------------------------------------------------------------
+
+_TODO_RE = re.compile(
+    r"<!-- TODO: embed image → (https?://[^\s>]+) -->", re.IGNORECASE
+)
+_IMAGE_BASE_PATH = "/images/kb"
+
+
+def patch_images(image_sid: str | None = None) -> None:
+    """
+    Scan every MDX file in s/article/ for '<!-- TODO: embed image → <url> -->'
+    comments, download those images using SF_IMAGE_SID, and replace the comments
+    with proper <Frame>![Screenshot](/images/kb/<filename>)</Frame> blocks.
+
+    Does not need an API token — only SF_IMAGE_SID (or --image-sid flag).
+    """
+    from image_downloader import SalesforceImageDownloader
+
+    sid = image_sid or SF_IMAGE_SID
+    if not sid:
+        log.error(
+            "No image SID available. Set SF_IMAGE_SID in .env or pass --image-sid."
+        )
+        return
+
+    mdx_files = sorted(ARTICLES_DIR.glob("*.mdx"))
+    if not mdx_files:
+        log.info("No MDX files found in %s", ARTICLES_DIR)
+        return
+
+    # Collect all unique image URLs across all files
+    url_to_files: dict[str, list[Path]] = {}
+    for mdx_path in mdx_files:
+        text = mdx_path.read_text(encoding="utf-8")
+        for m in _TODO_RE.finditer(text):
+            url = m.group(1)
+            url_to_files.setdefault(url, []).append(mdx_path)
+
+    if not url_to_files:
+        log.info("No TODO image comments found in any MDX file.")
+        return
+
+    all_urls = list(url_to_files)
+    log.info("Found %d unique TODO image URLs across %d files", len(all_urls), len(mdx_files))
+
+    IMAGES_DIR.mkdir(parents=True, exist_ok=True)
+    downloader = SalesforceImageDownloader(sid, IMAGES_DIR)
+    url_to_local = downloader.download_all(all_urls)
+    downloader.report()
+
+    if not url_to_local:
+        log.error("No images downloaded — check that SF_IMAGE_SID is valid.")
+        return
+
+    # Patch each MDX file that had at least one successful download
+    files_patched = 0
+    for mdx_path in mdx_files:
+        text = mdx_path.read_text(encoding="utf-8")
+        original = text
+
+        def _replace(m: re.Match) -> str:
+            url = m.group(1)
+            local = url_to_local.get(url)
+            if not local:
+                return m.group(0)  # keep the comment if download failed
+            return f"<Frame>![Screenshot]({_IMAGE_BASE_PATH}/{local})</Frame>"
+
+        text = _TODO_RE.sub(_replace, text)
+        if text != original:
+            _write_mdx(mdx_path, text)
+            replaced = len(_TODO_RE.findall(original)) - len(_TODO_RE.findall(text))
+            log.info("  Patched %s  (%d image(s) embedded)", mdx_path.name, replaced)
+            files_patched += 1
+
+    remaining = sum(1 for f in ARTICLES_DIR.glob("*.mdx")
+                    for _ in _TODO_RE.findall(f.read_text(encoding="utf-8")))
+    log.info("")
+    log.info("=== IMAGES-ONLY SUMMARY ===")
+    log.info("  Files patched:            %d", files_patched)
+    log.info("  TODO comments remaining:  %d", remaining)
+    if remaining:
+        log.info("  (remaining TODOs = images that still failed to download)")
+
+
 def migrate(
     access_token: str | None,
     *,
@@ -345,9 +437,10 @@ def migrate(
     # ---- Set up Salesforce client and image downloader ----
     client = SalesforceKnowledgeClient(access_token, SF_INSTANCE_URL) if access_token else None
     downloader = None
-    if access_token and not skip_images and not dry_run:
+    image_sid = SF_IMAGE_SID or access_token
+    if image_sid and not skip_images and not dry_run:
         IMAGES_DIR.mkdir(parents=True, exist_ok=True)
-        downloader = SalesforceImageDownloader(access_token, IMAGES_DIR)
+        downloader = SalesforceImageDownloader(image_sid, IMAGES_DIR)
 
     stats = {"written": 0, "skipped": 0, "failed": 0}
     log.info("")
@@ -493,6 +586,25 @@ def main() -> None:
             "Requires --access-token."
         ),
     )
+    parser.add_argument(
+        "--images-only",
+        action="store_true",
+        help=(
+            "Skip article fetching entirely. Scan existing MDX files in s/article/ "
+            "for '<!-- TODO: embed image -->' comments, download those images using "
+            "SF_IMAGE_SID (or --image-sid), and patch the files in place. "
+            "No SF_ACCESS_TOKEN required."
+        ),
+    )
+    parser.add_argument(
+        "--image-sid",
+        default=os.environ.get("SF_IMAGE_SID"),
+        metavar="SID",
+        help=(
+            "Session ID for domo.file.force.com image downloads. "
+            "Can also be set via SF_IMAGE_SID in .env."
+        ),
+    )
 
     args = parser.parse_args()
 
@@ -500,6 +612,10 @@ def main() -> None:
         if not args.access_token:
             parser.error("--access-token is required with --describe")
         SalesforceKnowledgeClient(args.access_token).describe_object(args.describe)
+        return
+
+    if args.images_only:
+        patch_images(image_sid=args.image_sid)
         return
 
     if not args.dry_run and not args.access_token:
