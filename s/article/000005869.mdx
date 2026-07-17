@@ -1,5 +1,6 @@
 ---
 title: "Domo Technical Support Troubleshooting Guide: Alerts"
+excerpt: "This article covers how Domo Technical Support employees can diagnose and resolve customer issues related to Domo Alerts, including alert creation, triggering, delivery, and unexpected behavior."
 ---
 
 ### Purpose
@@ -16,7 +17,7 @@ There are three steps to begin resolving a customer issue. Each one is described
 
 Begin by clarifying the following:
 
-- What type of alert is affected? (Threshold Alert, Growth Alert, Custom Alert, Dataset Alert, Card Alert, etc.)
+- What type of alert is affected? (Threshold Alert, Growth Alert, Custom Alert, DataSet Alert, Card Alert, and other types)
 - What does the customer expect the alert to do versus what is happening?
 - Are all alerts affected or only specific ones?
 - When did the problem begin? Were there any recent changes to DataSets, permissions, or alert configurations?
@@ -29,7 +30,7 @@ Begin by clarifying the following:
 | Alert Name(s) and IDs | Identify affected alerts |
 | Detailed Expected vs Actual Behavior | Understand the issue |
 | Alert Type and Conditions | Verify configuration and logic |
-| Datasets / Cards Linked to Alert | Check data freshness and compatibility |
+| DataSets / Cards Linked to Alert | Check data freshness and compatibility |
 | Recipients / Delivery Channels | Confirm intended alert recipients |
 | Alert Frequency and Schedule | Ensure timing is as expected |
 | Sample Data or Dashboard State at Trigger time | Validate data validity |
@@ -47,7 +48,7 @@ Verify the following:
 - Confirm alert rules and conditions: Are logical operators and threshold values correct?
 - Verify that the DataSet or card feeding the alert is updating and running successfully.
 - Review the alert frequency and any snooze or suppression settings.
-- Verify notification delivery channels (email, Slack, etc.) and confirm recipient accuracy.
+- Verify notification delivery channels (email, Slack, and other channels) and confirm recipient accuracy.
 - Check user permissions for alert access and data visibility.
 - Confirm whether the alert has successfully triggered in the past.
 
@@ -79,7 +80,7 @@ Verify the following:
 - Use the Email Health Report ([https://domo.domo.com/page/882344074](https://domo.domo.com/page/882344074)) to check bounced emails.
 
   
-<Warning>**Warning:** This report contains sensitive information — DO NOT SHARE EXTERNALLY.</Warning>
+<Warning>**Warning:** This report contains sensitive information—DO NOT SHARE EXTERNALLY.</Warning>
 
 #### 4.5 Sharing Issues: Groups or People Not Visible
 
@@ -109,7 +110,7 @@ Escalate when:
 - Data integration or backend infrastructure problems impact alert generation.
   - Include all gathered details, reproduction steps, logs, and customer impact in the escalation.
 
-### Communicating with Customers
+### Communicate with Customers
 
 - Summarize findings accurately and clearly.
 - Confirm customer understanding of alert behavior or platform limitations.

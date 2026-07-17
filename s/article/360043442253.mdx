@@ -1,19 +1,20 @@
 ---
 title: "Diagnosing Issues in Customer Cards"
+excerpt: "This article explains how to use Chrome's network inspection tools to diagnose errors in customer cards and gather information for troubleshooting."
 ---
 
-<Warning>**Important:** This topic is for INTERNAL USE ONLY. Do NOT share any of the content in this page with customers!</Warning>
+<Warning>**Important:** This topic is for INTERNAL USE ONLY. Do NOT share any of the content in this page with customers.</Warning>
 
-When seeing an error in a customer chart, or a drilldown won't render, or you come across some other issue with a customer card in which we can gather information from the network, please follow these instructions to determine if there is an error, and if so, what the underlying error is. This will allow us to better troubleshoot customer-reported issues, and if needed, provide better information to the dev teams.
+When seeing an error in a customer chart, or a Drill Path won't render, or you come across some other issue with a customer card in which we can gather information from the network, please follow these instructions to determine if there is an error, and if so, what the underlying error is. This will allow us to better troubleshoot customer-reported issues, and if needed, provide better information to the dev teams.
 
-1. In Google Chrome, right-click anywhere in the browser and select **Inspect**.  
+1. In Google Chrome, right-click anywhere in the browser and select **Inspect**.  
       
     
 
    
 <Frame>![Screenshot](/images/kb/0EM5w000005vOrz.png)</Frame>
 
-2. In the **Inspection** window, click on the **Network** tab.  
+2. In the **Inspection** window, click on the **Network** tab.  
       
     
 
@@ -21,17 +22,17 @@ When seeing an error in a customer chart, or a drilldown won't render, or you co
 <Frame>![Screenshot](/images/kb/0EM5w000005vOs0.png)</Frame>
 
 3. Reload the page with the problem card, or navigate to the card.  
-    Once the card fully loads (or throws an error), you can see the details about each API call in the **Network** tab.
-4. Under the **Name** listing, click the name that threw the last error.   
-    Many of these errors will be found under **Name:**render?parts=graph,summary.   
+    After the card fully loads (or throws an error), you can see the details about each API call in the **Network** tab.
+4. Under the **Name** listing, click the name that threw the last error.   
+    Many of these errors will be found under **Name:**render?parts=graph,summary.   
       
     
 
    
 <Frame>![Screenshot](/images/kb/0EM5w000005vOrx.png)</Frame>
 
-5. Click the **Preview** tab in the navigation bar to the right of the **Name** pane.  
-    Under **Preview** you should see the word "toe" with a line of characters next to it.  
+5. Click the **Preview** tab in the navigation bar to the right of the **Name** pane.  
+    Under **Preview** you should see the word "toe" with a line of characters next to it.  
       
     
 

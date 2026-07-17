@@ -1,27 +1,28 @@
 ---
 title: "Converting an Instance to HIPAA"
+excerpt: "This article explains how to convert a Domo instance to a HIPAA-compliant environment, including the request process and post-conversion verification steps."
 ---
 
 ## Intro
 
-For an instance to be HIPAA compliant, the customer must be on the HIPAA instance. Due to increased security protocols, a customer may request to have their instance converted over to a HIPAA environment. This will require the approval of legal as well as completing a multi-step process.
+For an instance to be HIPAA compliant, the customer must be on the HIPAA instance. Due to increased security protocols, a customer may request to have their instance converted over to a HIPAA environment. This will require the approval of legal as well as completing a multi-step process.
 
-## Requesting a HIPAA instance conversion
+## Request a HIPAA Instance Conversion
 
 When a customer contacts you about converting their instance over to HIPAA,
 
 1. Send the request to their CSM. They will need to be the first point of contact to start this process.
-2. Once the conversation has started between the customer and the CSM, escalate your case to the L2, Greg Pirie.
+2. After the conversation has started between the customer and the CSM, escalate your case to the L2, Greg Pirie.
 3. When the agreement has been approved by Legal, the L2 will submit the environment change to Joel Tobey and Eric Layton  
     This will initiate the initial sync/copy of the instance which can take time to complete depending on the amount of data contained within their instance.
-4. Once the copy is finished, a temporary URL to the HIPAA instance will be given to the customer so they can compare the information between the original and copy instance.
+4. After the copy is finished, a temporary URL to the HIPAA instance will be given to the customer so they can compare the information between the original and copy instance.
 5. When the customer verifies that the data was copied correctly, the final sync will be scheduled and the temporary instance URL will be changed back to the original URL.
 
    
-<Warning>**Important:** During the final copy, the customer shouldn't write any new data to the Domo instance as the copy process will not pick up any changes once it has started.
-6. Once the final copy is complete, the customer will be responsible to verify:</Warning>
+<Warning>**Important:** During the final copy, the customer shouldn't write any new data to the Domo instance as the copy process will not pick up any changes after it has started.
+6. After the final copy is complete, the customer will be responsible to verify:</Warning>
 
    1. All Workbench operations are complete and successful.
    2. Their SSO configuration is correct and users are able to log in.
-   3. Any Custom API or Public API integration are all intact.
+   3. Any Custom API or Public API integration are all intact.
    4. Any DataSets created with the DataSet via Email connector are still receiving data properly.

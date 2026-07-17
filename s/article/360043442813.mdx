@@ -1,14 +1,15 @@
 ---
 title: "URL Hooks and Text Replacement"
+excerpt: "This article covers URL hooks that access Domo debug and configuration features, and how to use text replacement tools to create shortcuts for frequently used hook strings."
 ---
 
-<Warning>**Important:** This topic is for INTERNAL USE ONLY. Do NOT share any of the content in this page with customers! Be especially careful when doing a WebEx, etc. We DO NOT want customers to see these.</Warning>
+<Warning>**Important:** This topic is for INTERNAL USE ONLY. Do NOT share any of the content in this page with customers. Be especially careful when doing a WebEx or screen share. We DO NOT want customers to see these.</Warning>
 
 ## Hooks
 
 **These may not be accurate as of 9/19/2019**
 
-In Support we use many hooks (i.e. feature switches) to accomplish various tasks. Below is a growing list of these hooks and what they are used for.
+In Support we use many hooks (also called feature switches) to accomplish various tasks. Below is a growing list of these hooks and what they are used for.
 
 | Hook | Use | URL Example |
 | --- | --- | --- |
@@ -16,7 +17,7 @@ In Support we use many hooks (i.e. feature switches) to accomplish various tasks
 | /playbooks?\_f=playbooks | Bring up the list of Playbooks that are available. You can also see which ones are installed in that instance and do other actions in regards to Playbooks. | https://domo.domo.com/playbooks?\_f=playbooks |
 | /auth/index?system=true | Used to bypass any SSO the company may have. For example GEIP uses SSO, so we can't get in without using this hook. | https://geip.domo.com brings you to their SSO page.  https://geip.domo.com/auth/index?system=true bypasses the SSO page. |
 | ?\_f=exportds | Used to export a DataSet. The export option comes up when you would run the DataSet. | https://domo.domo.com/datasources/0e080d82-af19-4556-8dfe-837f39568f45/details?\_f=exportds |
-| /api/data/v1/connectors/com.domo.connector.<>?language=en  (replace <> with the connector name) | Used to see what version of a connector is currently deployed on an instance.  For example, if dev.dev says that a problem is fixed in version 2.78, you would use this hook with the correct com.domo.connector.<CONNECTOR NAME> and you will be able to see the Major and Minor version currently deployed to that instance. There are other details found in here, but this is the main use. Be sure to use it on the instance you are curious about. Because many of our instances are on different servers they will not all have the same version of connectors at the same time; it depends on the push schedule, etc.  Because this is JSON, I would highly recommend installing a simply JSON viewer to make it look more understandable:  [https://chrome.google.com/webstore/detail/jsonview/chklaanhfefbnpoihckbnefhakgolnmc?hl=en](https://chrome.google.com/webstore/detail/jsonview/chklaanhfefbnpoihckbnefhakgolnmc?hl=en) | https://domo.domo.com/api/data/v1/connectors/com.domo.connector.googleAnalytics?language=en     https://domo.domo.com/api/data/v1/connectors/com.domo.connector.adobeanalytics?language=en |
+| /api/data/v1/connectors/com.domo.connector.<>?language=en  (replace <> with the connector name) | Used to see what version of a connector is currently deployed on an instance.  For example, if dev.dev says that a problem is fixed in version 2.78, you would use this hook with the correct com.domo.connector.<CONNECTOR NAME> and you will be able to see the Major and Minor version currently deployed to that instance. There are other details found in here, but this is the main use. Be sure to use it on the instance you are curious about. Because many of our instances are on different servers they will not all have the same version of connectors at the same time; it depends on the push schedule and other factors.  Because this is JSON, I would highly recommend installing a simply JSON viewer to make it look more understandable:  [https://chrome.google.com/webstore/detail/jsonview/chklaanhfefbnpoihckbnefhakgolnmc?hl=en](https://chrome.google.com/webstore/detail/jsonview/chklaanhfefbnpoihckbnefhakgolnmc?hl=en) | https://domo.domo.com/api/data/v1/connectors/com.domo.connector.googleAnalytics?language=en     https://domo.domo.com/api/data/v1/connectors/com.domo.connector.adobeanalytics?language=en |
 
 ## Text Replace
 

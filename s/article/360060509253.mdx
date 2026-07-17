@@ -1,24 +1,25 @@
 ---
 title: "Scheduled Report Troubleshooting"
+excerpt: "This article covers how to troubleshoot common Scheduled Reports issues, including missing emails, missing attachments, filter problems, and formatting issues."
 ---
 
 ## Intro
 
-This guide will provide you with all the necessary steps for troubleshooting Scheduled Report issues. You’ll want to make sure you have read and understand how Scheduled Reports work by reviewing the “Scheduling Reports” article: [Scheduling Reports](/s/article/360043437773)
+This guide will provide you with all the necessary steps for troubleshooting Scheduled Report issues. You'll want to make sure you have read and understand how Scheduled Reports work by reviewing the "Scheduling Reports" article: [Scheduling Reports](/s/article/360043437773)
 
-> *NOTE: When a scheduled report is created, a view of the card or page is created that contains the current state of the card. If the card or page is changed the scheduled report will remain the same and will not reflect those changes. See: Editing the content for a report, for more information:* [Editing the Content for a Report](/s/article/360043437773)
+> *NOTE: When a Scheduled Report is created, a view of the card or Dashboard is created that contains the current state of the card. If the card or Dashboard is changed the Scheduled Report will remain the same and will not reflect those changes. See: Editing the content for a report, for more information:* [Editing the Content for a Report](/s/article/360043437773)
 
-## General Troubleshooting, prior to going to Hivemind
+## Troubleshoot Before Contacting Hivemind
 
-For any scheduled report issue you come across, you will want to review the following:
+For any Scheduled Report issue you come across, you will want to review the following:
 
-### Steps for accessing the Scheduled Report view with customer .eml file:
+### Access the Scheduled Report View with Customer .eml File
 
 1. Retrieve the .eml file from the customer.
 2. Click on the desired Card in the email.
-3. The link will take you to the customer’s instance where the view will be shown in the URL.
+3. The link will take you to the customer's instance where the view will be shown in the URL.
 
-### Steps for accessing the Scheduled Report view without customer .eml file:
+### Access the Scheduled Report View Without Customer .eml File
 
 1. Go to the Admin menu.
 2. Select Scheduled Reports.
@@ -33,36 +34,36 @@ For any scheduled report issue you come across, you will want to review the foll
 - Make sure recipient users are added to the PDP policy.
 - If this occurs for non-Domo users receiving the email, the best solution is to have the customer add them as Social users and add them to the PDP policy.
 
-<Note>**Note:** Social users do not count toward the customer’s licenses.</Note>
+<Note>**Note:** Social users do not count toward the customer's licenses.</Note>
 
 ### Items we need to know from the customer:
 
 1. The issue being reported on the Scheduled Report.
 2. Name of the Scheduled Report.
-3. Link to Card and/or page the report is built off of.
+3. Link to Card and/or Dashboard the report is built off of.
 
 ### Items we can have the customer try:
 
 1. Recreate the Scheduled Report from scratch to see if the issue still persists.
-2. Have the customer do a “Send Now” from the Scheduled Report view; compare the “Send Now” email with their Scheduled Report email.
+2. Have the customer do a "Send Now" from the Scheduled Report view; compare the "Send Now" email with their Scheduled Report email.
    1. The Scheduled Report view is accessible by going to Admin > Scheduled Reports > Scheduled Report name > Edit Report.
    2. You will be taken to the view and you will see a view ID in the URL.
-      1. See **Steps for accessing the Scheduled Report view.**
+      1. See **Access the Scheduled Report View.**
 
 ### Items we can do as L1s:
 
-1. Do a send now from the scheduled report view and compare the send now email with the scheduled report email the customer receives.
+1. Do a send now from the Scheduled Report view and compare the send now email with the Scheduled Report email the customer receives.
    1. The Scheduled Report view is accessible by going to Admin > Scheduled Reports > Scheduled Report name > Edit Report.
    2. You will be taken to the view and you will see a view ID in the URL.
-      1. See **Steps for accessing the Scheduled Report view.**
-2. Add your @domo.com email address to the customer’s Scheduled Report.
+      1. See **Access the Scheduled Report View.**
+2. Add your @domo.com email address to the customer's Scheduled Report.
 3. View the Scheduled Report History by going to the History tab in Admin > Scheduled Reports; look for any failures and obtain date/time and screenshot.
 
-## Specific troubleshooting for individual issues:
+## Troubleshoot Individual Issues
 
 ### Email is not received
 
-- We need to confirm who’s end has the issue, the customer or Domo.
+- We need to confirm who's end has the issue, the customer or Domo.
 - Has the user unsubscribed from the email?
   - We can check this by viewing the recipients of the Scheduled Report.
 - Are other Scheduled Report emails being received successfully?
@@ -70,7 +71,7 @@ For any scheduled report issue you come across, you will want to review the foll
   - Have them confirm with their IT team that they can receive emails from [notifications@domo.com](mailto:notifications@domo.com) and make sure it is trusted by their email client.
 - Domo to prove the emails are being sent out from DEV via a JIRA ticket.
 
-### Email contains errors, “Cards unable to load”
+### Email contains errors, "Cards unable to load"
 
 - What is the card type that is failing?
 - What filters are being applied?
@@ -82,14 +83,14 @@ For any scheduled report issue you come across, you will want to review the foll
 
 - What is the size of the attachment?
   - We can check this by doing an export to CSV with the same filters applied and PDP.
-- Are some users getting attachments and others aren’t?
+- Are some users getting attachments and others aren't?
 
-### Filters are not being applied to card/page that were set on the view
+### Filters are not being applied to card/Dashboard that were set on the view
 
-- Check the state of the scheduled report view.
-- Do a Send Now from the scheduled report view, does it match?
+- Check the state of the Scheduled Report view.
+- Do a Send Now from the Scheduled Report view, does it match?
 
-### Report emails have weird formatting and don’t look good.
+### Report emails have weird formatting and don't look good.
 
 - Check the email client version and the Operating System version the user is using.
 - Make sure they meet our requirements, [Caveats](/s/article/360043437773)
@@ -113,10 +114,10 @@ For any scheduled report issue you come across, you will want to review the foll
 - After L2 approval, create a JIRA ticket using the JIRA template: [https://domo.domo.com/page/1719003339/kpis/details/471519402](https://domo.domo.com/page/1719003339/kpis/details/471519402)
 - Make sure to include the following items in the JIRA:
 
-1. Name of the scheduled report.
+1. Name of the Scheduled Report.
 2. .eml file demonstrating the issue.
    1. On Outlook for Mac, simply drag the email from your message list to your desktop to generate a standard .eml file.
 3. CSV file attachment, if applicable.
-4. Link to the card and/or page.
-5. Screenshots of scheduled report in customer instance with descriptions of what each screenshot means. All screenshots should be added to the attachments section of the JIRA.
-6. Report’s scheduled time versus when report was sent, if applicable.
+4. Link to the card and/or Dashboard.
+5. Screenshots of Scheduled Report in customer instance with descriptions of what each screenshot means. All screenshots should be added to the attachments section of the JIRA.
+6. Report's scheduled time versus when report was sent, if applicable.

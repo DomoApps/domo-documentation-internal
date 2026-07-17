@@ -1,5 +1,6 @@
 ---
 title: "Rename a Customer Instance URL"
+excerpt: "This article covers the policy and processes for renaming a Domo customer instance URL, including ownership verification, L1 and L2 support procedures, and customer responsibilities."
 ---
 
 <Warning>**Important:** This topic is for INTERNAL USE ONLY. Do NOT share any of the content in this page with customers.</Warning>
@@ -8,21 +9,21 @@ title: "Rename a Customer Instance URL"
 
 Domo's policy for renaming a customer instance URL is as follows:
 
-In order for a paid instance URL to be renamed, an Authorized Admin User of the paid instance submits a request to Domo. Domo then verifies the customer's ownership of the new URL in accordance with Domo’s URL naming convention, see [Domo Instance Naming Conventions](/s/article/360043441513), and then performs the renaming.
+In order for a paid instance URL to be renamed, an Authorized Admin User of the paid instance submits a request to Domo. Domo then verifies the customer's ownership of the new URL in accordance with Domo’s URL naming convention, see [Domo Instance Naming Conventions](/s/article/360043441513), and then performs the renaming.
 
 ### Verify Ownership of the New URL
 
 Verify ownership if any one of the following is true:
 
-- There is an Authorized Admin user with an email address with the new domain URL and Domo receives an email communication to and from said address.
+- There is an Authorized Admin user with an email address with the new domain URL and Domo receives an email communication to and from said address.
 
-  - Communication verifies that the email is real and belongs to the user. Simply updating the email in Domo doesn’t mean it’s a real email and belongs to the user.
+ - Communication verifies that the email is real and belongs to the user. Simply updating the email in Domo doesn’t mean it’s a real email and belongs to the user.
 - Browsing to the old URL re-directs to the new URL.
-- An official Internet domain registration authority (i.e. [https://whois.icann.org/en](https://whois.icann.org/en), [https://whois.cira.ca/](https://whois.cira.ca/)) can verify that both domains have the same owner that is an actual contact and not Privacy Protect.
+- An official Internet domain registration authority (such as [https://whois.icann.org/en](https://whois.icann.org/en) or [https://whois.cira.ca/](https://whois.cira.ca/)) can verify that both domains have the same owner that is an actual contact and not Privacy Protect.
 - An Authorized Admin sends written proof of ownership of the new URL. This can be an invoice from the Registrar or a screenshot from the Registrar’s UI showing that they own the domain.
-- Domo’s Legal team ([legal@domo.com](mailto:legal@domo.com)) satisfactorily verifies ownership of new domain.
+- Domo’s Legal team ([legal@domo.com](mailto:legal@domo.com)) satisfactorily verifies ownership of new domain.
 
-The customer instance’s Customer Success Manager (CSM), Account Executive (AE), Legal and Accounts Receivables (AR) are all notified of the name change to ensure all records are updated appropriately. If this is due to a merger, acquisition, rebranding, or any other activity that results in a change to the customer’s official legal entity name, we need to assign their SO to the new entity as well. The assignment amendment must be signed first before the URL can be changed.
+The customer instance’s Customer Success Manager (CSM), Account Executive (AE), Legal and Accounts Receivables (AR) are all notified of the name change to ensure all records are updated appropriately. If this is due to a merger, acquisition, rebranding, or any other activity that results in a change to the customer’s official legal entity name, we need to assign their SO to the new entity as well. The assignment amendment must be signed first before the URL can be changed.
 
 ## L1 Process for Renaming an Instance
 
@@ -30,12 +31,12 @@ L1 support personnel can follow these steps to rename instance.
 
 1. Confirm current instance URL.
 2. Confirm requested instance URL.
-3. Confirm if user is an authorized Admin (see 
+3. Confirm if user is an authorized Admin (see
 
-   
+  
 <Frame>![Screenshot](/images/kb/0EM5w000005vbbC.jpg)</Frame>
 
-   [Definition of an Authorized Admin of a Customer Instance](#definition_of_an_authorized_admin), below).
+ [Definition of an Authorized Admin of a Customer Instance](#definition_of_an_authorized_admin), below).
 4. Confirm URL ownership using [Policy](#policy) workflow, above.
 5. Review all items in [Customer Responsibilities When Renaming an Instance URL.](#customer_responsibilities_when_renaming)
 6. Obtain two timeframes in which the customer can allow us to perform the instance renaming.
@@ -49,45 +50,45 @@ Follow these steps to rename an instance.
 2. Schedule a time with the customer to make the change.
 3. At the appointed time (and after we’ve receive the signed amendment if required by Legal):
 
-   1. Go to the instance’s Customer Profile in the Admin Console and update the Customer Domain.
-   2. Go to the instance’s Salesforce domain record and update the Name (Hostname).
-   3. Wait for the DNS to resolve and proxy login as Domo Support to verify the name change was successful.
+ 1. Go to the instance’s Customer Profile in the Admin Console and update the Customer Domain.
+ 2. Go to the instance’s Salesforce domain record and update the Name (Hostname).
+ 3. Wait for the DNS to resolve and proxy login as Domo Support to verify the name change was successful.
 
-      - If you’ve already waited 15 minutes and you still can’t proxy into the instance, the DNS could still be cached in your browser to the old IP address. Clear your DNS cache or use a different browser until you can login. For Chrome, you can go to chrome://net-internals/#dns and click the **Clear host cache button** to clear your DNS cache.
-   4. Get verification from the customer that they can sign into the new URL.
-   5. Notify those that need to know the URL was successfully updated (i.e. CSM, AE, Legal, AR).
+ - If you’ve already waited 15 minutes and you still can’t proxy into the instance, the DNS could still be cached in your browser to the old IP address. Clear your DNS cache or use a different browser until you can login. For Chrome, you can go to chrome://net-internals/#dns and click the **Clear host cache button** to clear your DNS cache.
+ 4. Get verification from the customer that they can sign into the new URL.
+ 5. Notify those that need to know the URL was successfully updated (CSM, AE, Legal, and AR).
 
-      
-<Note>**Note:** If the instance is on an environment with the Star DNS (i.e. Prod1), then the old URL will still work. If the customer brings up that they can still sign into the old URL and they don’t want that, please reach out to DevOps to manually block the old URL.</Note>
+  
+<Note>**Note:** If the instance is on an environment with the Star DNS (such as Prod1), then the old URL will still work. If the customer brings up that they can still sign into the old URL and they don’t want that, please reach out to DevOps to manually block the old URL.</Note>
 
-## Customer Responsibilities When Renaming an Instance URL
+## Customer Responsibilities When Renaming an Instance URL
 
 Customers are responsible for the following when they rename an instance URL:
 
 1. Contact Domo Support if the answer to either of the following questions is YES.  
-    Is the instance Domo is changing the domain name for using Publish?  
-    Is the instance Domo is changing the domain name for publishing content to other instances or subscribers?
+ Is the instance Domo is changing the domain name for using Publish?  
+ Is the instance Domo is changing the domain name for publishing content to other instances or subscribers?
 2. Workbench jobs must be updated to the new URL.
-3. SSO configuration must be updated to the new URL.   
-    Publication Groups SSO configuration must also be updated, if applicable.
+3. SSO configuration must be updated to the new URL.  
+ Publication Groups SSO configuration must also be updated, if applicable.
 4. Custom API integration must point to the new URL. Public API integration should not be affected.
-5. DataSets created with the Dataset via Email connector that was created before the URL change will no longer work after the URL has been updated. New DataSets have to be created after the URL has been updated.
-6. DataSets created with the  Domo Governance DataSets Connector need to be re-authenticated.
-7. The Domo Word, Excel, and PowerPoint Plugins with existing accounts need to be re-authenticated.
+5. DataSets created with the DataSet via Email connector that was created before the URL change will no longer work after the URL has been updated. New DataSets have to be created after the URL has been updated.
+6. DataSets created with the Domo Governance DataSets Connector need to be re-authenticated.
+7. The Domo Word, Excel, and PowerPoint Plugins with existing accounts need to be re-authenticated.
 8. The Domo Google Sheets add-on need to be re-authenticated.
-9. Existing plugin connections need to be removed and re-added to the new domain.
+9. Existing plugin connections need to be removed and re-added to the new domain.
 10. Any Private embedded content needs to have the URL updated to the new domain name. Public embed uses **public.domo.com** for all embedded content and does not need to be changed.
-11. If a sandbox is being used, any domain authorizations using the instance being renamed must be removed and, after the instance rename is completed, reauthorize the newly renamed instance.
+11. If a sandbox is being used, any domain authorizations using the instance being renamed must be removed and, after the instance rename is completed, reauthorize the newly renamed instance.
 
 ## Definition of an Authorized Admin of a Customer Instance
 
 The Authorized Admin for a customer instance must meet ONE of the following criteria:
 
-- Be a Functional Admin User. See [Definition of a Functional Admin](#definition_of_functional_admin)  below.
+- Be a Functional Admin User. See [Definition of a Functional Admin](#definition_of_functional_admin) below.
 - Be the signature person of the contract between Domo and Customer.
-- Be a customer employee who sends written verification from Buzz, company letterhead, or work email that they are authorized to administer the Domo instance specified by the URL in the communication.   
-   We only use this Admin if we fail to make communication with either of the other types.
+- Be a customer employee who sends written verification from Buzz, company letterhead, or work email that they are authorized to administer the Domo instance specified by the URL in the communication.  
+ We only use this Admin if we fail to make communication with either of the other types.
 
 ## Definition of a Functional Admin of a Customer Instance
 
-A Functional Admin user is a Customer Admin User, in other words, *not* a Domosapien or Domo Partner, within the customer instance that has logged into the instance in the last 14 days.
+A Functional Admin user is a Customer Admin User, in other words, *not* a Domosapien or Domo Partner, within the customer instance that has logged into the instance in the last 14 days.

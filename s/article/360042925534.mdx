@@ -1,5 +1,6 @@
 ---
 title: "Windowing Functions in Beast Mode"
+excerpt: "This article covers how to use windowing functions in Beast Mode, including SUM, RANK, NTILE, PERCENTILE_RANK, and running total calculations."
 ---
 
 ## Intro
@@ -69,7 +70,7 @@ Here are a few examples:
 
 ## Use Case #3: Percentile Rank and Quartiles
 
-Here is a sample problem we encountered with one of our customers and how we resolved it using a windowing function. Most of the analysis we were doing with the customer was rankings-based, involving calculating rankings through multiple slices of the data (rankings by industry, rankings by product, rankings by region, country, etc.). Each time we needed to create a new ranking, we had to do at least two new transforms in a MySQL DataFlow. In addition, when we computed the rankings in a DataFlow, they became fixed, making the date range and filter features useless for cards using rankings.
+Here is a sample problem we encountered with one of our customers and how we resolved it using a windowing function. Most of the analysis we were doing with the customer was rankings-based, involving calculating rankings through multiple slices of the data (rankings by industry, rankings by product, rankings by region, and country). Each time we needed to create a new ranking, we had to do at least two new transforms in a MySQL DataFlow. In addition, when we computed the rankings in a DataFlow, they became fixed, making the date range and filter features useless for cards using rankings.
 
 We needed a Beast Mode calculation that looked like this:
 
@@ -83,7 +84,7 @@ In addition, we needed a Beast Mode calculation like this:
 
 This would allow us to display the ranking trended over time and split out by quarter.
 
-At some point, you may need to use a percentile ranking either visually in a card or computationally (e.g. weighted scores), and you may face the same limitations outlined above: the action is difficult to implement in MySQL DataFlow, it’s fixed once it's been computed, and it kills the dynamic nature of cards.
+At some point, you may need to use a percentile ranking either visually in a card or computationally (such as weighted scores), and you may face the same limitations outlined above: the action is difficult to implement in MySQL DataFlow, it’s fixed after it’s been computed, and it kills the dynamic nature of cards.
 
 To solve the issues described above, all you need to do is employ the following windowing functions:
 

@@ -1,5 +1,6 @@
 ---
 title: "Cloud Integrations (Cloud Amplifier) Troubleshooting"
+excerpt: "This article covers troubleshooting for common cloud integration (Cloud Amplifier) issues, including fiscal calendar limitations, Boolean datatype errors, large data exports from Databricks, and Magic ETL and DataFlow transformation restrictions."
 ---
 
 ### Intro
@@ -22,7 +23,7 @@ Domo does not currently support Boolean data types. Cloud integrations that atte
 
 The recommended solution is to change the data type at the source until Domo adds support for Boolean data types.
 
-### Exporting Large Data
+### Export Large Data
 
 There are known issues when exporting large DataSets from Databricks. Engineering can enable specific feature switches that allow the use of an input tile in Magic ETL, which supports filtering to limit input rows.
 
@@ -34,10 +35,10 @@ If filtering via Magic ETL is not feasible, it is recommended to provide a colum
 
 Magic ETL currently does not support DataSets via cloud integrations as inputs. This limitation is due to a security feature in Snowflake that explicitly prevents direct exports from our system to S3. Domo Engineering is actively working on updating the integration to support this security feature.
 
-**Adrenaline Dataflows**
+**Adrenaline DataFlows**
 
 Under normal circumstances, Adrenaline DataFlows do not support Cloud Amplifier inputs. However, enabling certain feature switches (dataflows-adrenaline and/or dataflows-cloud-engine) can allow this functionality.
 
-**SQL Dataflows**
+**SQL DataFlows**
 
 DataSets via cloud integrations are not supported as inputs in SQL DataFlows.

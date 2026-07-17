@@ -1,25 +1,26 @@
 ---
 title: "Domo Publish Case Handling"
+excerpt: "This article covers the basic troubleshooting steps to identify and resolve Domo Publish issues."
 ---
 
 ## Intro
 
-With Domo Publish, there is a specific set of steps and resources at your disposal for resolving issues. This article covers the basic troubleshooting steps to identify issues and help customers come to a resolution.
+With Domo Publish, there is a specific set of steps and resources at your disposal for resolving issues. This article covers the basic troubleshooting steps to identify issues and help customers come to a resolution.
 
-## Setting Up Access in a Test Instance
+## Set Up Access in a Test Instance
 
-The greatest difficulty with troubleshooting Domo Publish involves recreating the issue within a test instance. Getting into a test instance (comingsoon.domo.com) and setting up access to Domo Publish requires following a specific series of steps.
+The greatest difficulty with troubleshooting Domo Publish involves recreating the issue within a test instance. Getting into a test instance (comingsoon.domo.com) and setting up access to Domo Publish requires following a specific series of steps.
 
 1. Login to comingsoon.domo.com.  
     Using Domo Admin to login as DomoSupport is useful as well.
-2. Share the “Domo Publish” page with yourself by doing the following:
+2. Share the "Domo Publish" Dashboard with yourself by doing the following:
 
    1. Go into the Admin portal.
-   2. Add yourself to the page by doing either of the following:
+   2. Add yourself to the Dashboard by doing either of the following:
 
-      - Go to **People** and find yourself. Scroll down and select **Add Page or Card** then search for and add Domo Publish.
-      - Go to **Pages** and find Domo Publish and check the checkbox. In the top right, choose **Edit** then select **Add users and groups**. Search for and then add yourself.
-3. Go to the Domo Publish page and enter this Authorization Key:
+      - Go to **People** and find yourself. Scroll down and select **Add Page or Card** then search for and add Domo Publish.
+      - Go to **Pages** and find Domo Publish and check the checkbox. In the top right, choose **Edit** then select **Add users and groups**. Search for and then add yourself.
+3. Go to the Domo Publish Dashboard and enter this Authorization Key:
 
 `a0e494a7-c958-4f10-8887-93fabf29691f`
 
@@ -30,27 +31,27 @@ After you have set up access in comingsoon.domo.com, use this article to begin t
 
 ## Common Issues
 
-The most common issue we see from customers is discrepancies between Publisher and Subscriber. For example, when a Publisher has 3 cards and the Subscriber only has 2, there is a distinct disconnect between the two instances. If the issue is not between Publisher and Subscriber, it is not a Publish issue and can be dealt with as a normal case.
+The most common issue we see from customers is discrepancies between Publisher and Subscriber. For example, when a Publisher has 3 cards and the Subscriber only has 2, there is a distinct disconnect between the two instances. If the issue is not between Publisher and Subscriber, it is not a Publish issue and can be dealt with as a normal case.
 
-If at any time you need the Customer’s Publish Authentication Token immediately, send a Buzz message to the L2 over Publish and they will send you the token. Do not make any changes on the L2's Publish Configuration.
+If at any time you need the Customer's Publish Authentication Token immediately, send a Buzz message to the L2 over Publish and they will send you the token. Do not make any changes on the L2's Publish Configuration.
 
 ## Logged Issues
 
-In Domo Publish, everything creates a log. In most cases, simply looking at what has failed and connecting it with the customer’s issue can solve the issue. You can hover over the specific log to learn more details about the job. This will also reveal any configuration changes that may be causing the issues. Asking the customer about the changes they made to the Publish configuration can be verified here.
+In Domo Publish, everything creates a log. In most cases, simply looking at what has failed and connecting it with the customer's issue can solve the issue. You can hover over the specific log to learn more details about the job. This will also reveal any configuration changes that may be causing the issues. Asking the customer about the changes they made to the Publish configuration can be verified here.
 
 ## Job Dependencies
 
-Sometimes Publish jobs require other jobs to be run for them to work. For example, it is common to have a job that only pushes DataSets and a job that only pushes cards/pages. If the MajorDomo decides to add more pages and cards (content), but forgets to add the required DataSets to the other job, the content job might give an error.  
+Sometimes Publish jobs require other jobs to be run for them to work. For example, it is common to have a job that only pushes DataSets and a job that only pushes cards/Dashboards. If the MajorDomo decides to add more Dashboards and cards (content), but forgets to add the required DataSets to the other job, the content job might give an error.  
    
- This can be fixed by adding the required DataSets to the DataSet job or by updating content dependencies.   
+ This can be fixed by adding the required DataSets to the DataSet job or by updating content dependencies.   
    
- Updating content dependencies will make sure everything needed to succeed is pushed to the Subscriber. So, if a job is missing a DataSet, it will add it the next time the job runs.   
+ Updating content dependencies will make sure everything needed to succeed is pushed to the Subscriber. So, if a job is missing a DataSet, it will add it the next time the job runs.   
    
  Here's how to do it:
 
 1. Edit the job.
-2. Click the **Actions** dropdown menu.
-3. Select **Update Content Dependencies**.  
+2. Click the **Actions** dropdown menu.
+3. Select **Update Content Dependencies**.  
       
     
 

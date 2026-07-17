@@ -1,5 +1,6 @@
 ---
 title: "Fiscal Calendar Guide"
+excerpt: "This article covers how to process standard and custom fiscal calendar requests, gather requirements from customers, and troubleshoot fiscal calendar issues."
 ---
 
 ## Terms to Know
@@ -20,11 +21,11 @@ A: NRF (National Retail Federation) is an organization that has a standard for f
    2. If the fiscal year is considered to be the next year, when calculating abbreviated months in the form of yyyy-mm, should this reflect the fiscal or actual year?
 3. On what day of the week do your weeks start?
 4. Does your fiscal calendar calculate months by real month boundaries (1st of every month) or does it calculate it on a week boundary basis? If it calculates based on a week boundary, please answer the questions below:
-   1. If your calendar operates on a week boundary, what is the week boundary configuration desired? Options are 4-4-5, 4-5-4, or 5-4-4, corresponding to the number of weeks in each “month” of a quarter (e.g. 4-4-5 is a quarter consisting of two 4-week months followed by a 5-week month)
+   1. If your calendar operates on a week boundary, what is the week boundary configuration desired? Options are 4-4-5, 4-5-4, or 5-4-4, corresponding to the number of weeks in each “month” of a quarter (for example, 4-4-5 is a quarter consisting of two 4-week months followed by a 5-week month)
    2. Week boundary calendars require a 53rd week be added every 4-6 years, depending on leap years. What specific years should have a 53rd week added? If none, the default will be used with 2020 as a reference point of a 53rd week year.
-   3. For 53-week years, where in the year should this 53rd week be added? (e.g. first month of the year, last month of the year, etc.)
+   3. For 53-week years, where in the year should this 53rd week be added? (for example, first month of the year or last month of the year)
 
-2. Once you have the answers to these questions, put up a board item on the coach queue labeled “Fiscal Calendar Request” and in the Hivemind post, include the customer’s instance, the prod environment, and then the questions and answers from above.
+2. After you have the answers to these questions, put up a board item on the coach queue labeled “Fiscal Calendar Request” and in the Hivemind post, include the customer’s instance, the prod environment, and then the questions and answers from above.
 
 ## Handle a Custom Fiscal Calendar Request
 
@@ -34,10 +35,10 @@ A. Firstly, you need to make the customer aware of a few caveats with custom req
 **Q.** **Where do I get the template for a custom calendar request?**  
 A: We will need to provide a standard calendar that most closely resembles what they are requesting so as to make it easier to change to what the customer needs. If the standard fiscal calendar questions were asked, you should have enough information to create a standard template that resembles what they want. If you did not ask the questions, simply do so at this point to get the necessary information to create the template.
 
-Once you’ve created the calendar, copy and paste it into a new file **using paste special and pasting only number formatting and values**; make sure to include the header as well**.** This is so that we don’t paste the formulas into the new file, since the main file used to build the templates uses formulas; it will also ensure we keep the date formatting, etc. Provide this to the customer and wait for them to send back the desired configuration.
+After you’ve created the calendar, copy and paste it into a new file **using paste special and pasting only number formatting and values**; make sure to include the header as well**.** This is so that we don’t paste the formulas into the new file, since the main file used to build the templates uses formulas; it will also ensure we keep the date formatting and other formatting details. Provide this to the customer and wait for them to send back the desired configuration.
 
 **Q.** **I got the template calendar back from the customer, now what?**  
-A: Once you have the template filled out by the customer, put up a board item on the coach queue labeled “Fiscal Calendar Request” and in the Hivemind post, include the customer’s instance, the prod environment, and the fiscal calendar attachment the customer provided. Enoc will notify you once it has been uploaded and enabled.
+A: After you have the template filled out by the customer, put up a board item on the coach queue labeled “Fiscal Calendar Request” and in the Hivemind post, include the customer’s instance, the prod environment, and the fiscal calendar attachment the customer provided. Enoc will notify you once it has been uploaded and enabled.
 
 **Q. Customer is requesting something that doesn’t sound possible, what do I do?**  
 A: Put a question on the Hivemind and Coach Board. Chances are, the customer is likely requesting something standard but using weird language/verbose that may not be familiar to you. If it is in fact, not “possible” via the standards we provide, the other option is to provide a calendar template that they can work on and fill out themselves. This would at that point be considered a custom request, which has some implications that fall on the customer, discussed in the next point.
@@ -55,11 +56,11 @@ If the customer claims this after uploading their custom calendar file, it’s o
 A: Yes absolutely, this is a standard we provide
 </Accordion>
 
-<Accordion title="Q. Can we have our weeks start on X day but have the year always start on Y day? (i.e. Week starts on Monday but Year starts on the first Sunday of the year)">
+<Accordion title="Q. Can we have our weeks start on X day but have the year always start on Y day? (for example, Week starts on Monday but Year starts on the first Sunday of the year)">
 A: No, the start weekday of the week needs to coincide with the start weekday for the year if they want years to start on a specific weekday.
 </Accordion>
 
-<Accordion title="Q.** **Customer wants the fiscal calendar to be enabled on all cards by default, is this possible?">
+<Accordion title="Q. Customer wants the fiscal calendar to be enabled on all cards by default, is this possible?">
 A: Currently, no. They’ll need to enable the fiscal calendar by going to the analyzer view of the card and checking the check box labeled “Use Fiscal Calendar” found in the date range settings, on a card by card basis. There are no plans to change this behavior.
 </Accordion>
 

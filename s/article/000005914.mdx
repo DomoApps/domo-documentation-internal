@@ -1,12 +1,13 @@
 ---
 title: "Troubleshoot Single Sign-On (SSO) with OpenID Connect (OIDC) in Domo"
+excerpt: "This article covers how to troubleshoot OIDC SSO in Domo, including validating configurations, inspecting tokens, tracing authentication flows, and verifying user mapping."
 ---
 
 ### Intro
 
 This article shows you how to troubleshoot OIDC SSO in Domo, including checking configurations, inspecting tokens, tracing authentication flows, and verifying user mapping.
 
-OpenID Connect (OIDC) is an authentication protocol built on OAuth 2.0 that uses JSON Web Tokens (JWTs) to verify user identity. In Domo, OIDC lets you set up Single Sign-On (SSO) with any identity provider (IdP) that supports OIDC and OAuth 2.0. Unlike SAML, OIDC is easier to configure, often allowing auto-discovery via a provider’s `.well-known/openid-configuration` endpoint, and supports user provisioning, attribute mapping, and group-based role assignments.
+OpenID Connect (OIDC) is an authentication protocol built on OAuth 2.0 that uses JSON Web Tokens (JWTs) to verify user identity. In Domo, OIDC lets you set up Single Sign-On (SSO) with any identity provider (IdP) that supports OIDC and OAuth 2.0. Unlike SAML, OIDC is easier to configure, often allowing auto-discovery via a provider's `.well-known/openid-configuration` endpoint, and supports user provisioning, attribute mapping, and group-based role assignments.
 
 <Warning>**Important:** Even minor mismatches in configuration values, such as redirect URIs or client IDs, can cause authentication failures. Always validate exact string matches.</Warning>
 
@@ -33,22 +34,22 @@ Confirm all OIDC configuration values in Domo match the settings in your identit
 
 1. In Domo, go to **Admin → Authentication → OpenID Connect (SSO)** and open your OIDC configuration.
 2. Verify the following:
-   1. **Client ID / Client Secret** — must match the IdP registration.
-   2. **Redirect URI(s)** — must be identical to those registered in the IdP.
-   3. **Authorization / Token / Userinfo endpoints** —use those from the IdP's `.well-known` configuration.
-   4. **Scopes** — include at minimum `openid`, and typically `profile`, `email`, and provider-specific group scopes.
-3. If available, past the IdP's `.well-known/openid-configuration` URL into Domo's **Well known config** field to auto-populate endpoints.
+   1. **Client ID / Client Secret —** must match the IdP registration.
+   2. **Redirect URI(s) —** must be identical to those registered in the IdP.
+   3. **Authorization / Token / Userinfo endpoints —** use those from the IdP's `.well-known` configuration.
+   4. **Scopes —** include at minimum `openid`, and typically `profile`, `email`, and provider-specific group scopes.
+3. If available, paste the IdP's `.well-known/openid-configuration` URL into Domo's **Well known config** field to auto-populate endpoints.
 
 # 2 — Check Tokens and Scopes
 
-Tokens and scopes are a frequent source of SSO issues. Use your IdP’s token inspection tools or a JWT debugger to analyze tokens by following these steps:
+Tokens and scopes are a frequent source of SSO issues. Use your IdP's token inspection tools or a JWT debugger to analyze tokens by following these steps:
 
 1. Validate token claims.  
 
    | **Claim** | **What to Check** |
    | --- | --- |
-   | `iss` | Matches IdP’s issuer |
-   | `aud` | Includes Domo’s client ID |
+   | `iss` | Matches IdP's issuer |
+   | `aud` | Includes Domo's client ID |
    | `exp` | Not expired |
    | `iat` | Reasonable issue time (check for clock skew) |
 2. Verify the token signature using the IdP's **JWKS** (JSON Web Key Set) endpoint.
@@ -81,9 +82,9 @@ Use the **Network** tab to follow these steps:
 
 If authentication succeeds but users lack proper access or roles, check the **attribute mapping** and **provisioning** setup in Domo.
 
-- **Attribute Mapping**: Ensure required claims (such as `email`, `name`, or custom attributes) appear in the ID token or userinfo response.
-- **Group Mapping**: If Domo uses group claims for access, confirm your IdP includes these claims in the token or userinfo payload. Some IdPs require enabling additional scopes or permissions to return group data.
-- **Provisioning**: If you use automated provisioning, test with a single user before rolling out to confirm thatattribute and group mappings work as expected.
+- **Attribute Mapping —** Ensure required claims (such as `email`, `name`, or custom attributes) appear in the ID token or userinfo response.
+- **Group Mapping —** If Domo uses group claims for access, confirm your IdP includes these claims in the token or userinfo payload. Some IdPs require enabling additional scopes or permissions to return group data.
+- **Provisioning —** If you use automated provisioning, test with a single user before rolling out to confirm that attribute and group mappings work as expected.
 
 ### Troubleshoot Common Errors
 
@@ -91,14 +92,14 @@ If authentication succeeds but users lack proper access or roles, check the **at
 | --- | --- | --- |
 | Users cannot log in | Client ID, secret, or redirect URI mismatch | Validate values in both Domo and IdP |
 | Token validation fails | Signature mismatch, wrong issuer, or expired token | Verify signature via IdP JWKS; check `iss`, `aud`, and `exp` |
-| “Invalid scope” or missing claim | Unsupported or missing scope in request | Add required scopes (`openid`, `profile`, `email`, `groups`) |
+| "Invalid scope" or missing claim | Unsupported or missing scope in request | Add required scopes (`openid`, `profile`, `email`, `groups`) |
 | Users log in but lack roles | Group or claim misconfiguration | Confirm group claims are passed and mapped in Domo |
 
 ### Additional Recommendations
 
-- **Confirm environment and login URL:** Ensure users access the correct Domo instance and sign-on URL.
-- **Collect evidence:** Capture error messages, browser console output, and timestamps to assist debugging.
-- **Check IdP-side updates:** Review certificate rotations, secret expirations, or new conditional access policies.
-- **Test before rollout:** Use a dedicated test user or Domo’s SSO test URL before enabling changes for all users.
-- **Secure secrets:** Never paste tokens or client secrets into public tools or channels.
-- **Monitor IdP logs:** Use IdP audit or sign-in logs to identify authentication or policy failures.
+- **Confirm environment and login URL —** Ensure users access the correct Domo instance and sign-on URL.
+- **Collect evidence —** Capture error messages, browser console output, and timestamps to assist debugging.
+- **Check IdP-side updates —** Review certificate rotations, secret expirations, or new conditional access policies.
+- **Test before rollout —** Use a dedicated test user or Domo's SSO test URL before enabling changes for all users.
+- **Secure secrets —** Never paste tokens or client secrets into public tools or channels.
+- **Monitor IdP logs —** Use IdP audit or sign-in logs to identify authentication or policy failures.

@@ -1,50 +1,51 @@
 ---
-title: "Dealing with Performance Issues on Large Datasources"
+title: "Dealing with Performance Issues on Large DataSets"
+excerpt: "This article explains how to resolve performance issues with large DataSets in Domo, including DataFusions and non-DataFusion DataSets."
 ---
 
 ## Intro
 
-This article will guide you through working with customers to resolve issues with large datasources in Domo (Fusions as well as non-Fusion datasources).
+This article will guide you through working with customers to resolve issues with large DataSets in Domo (DataFusions as well as non-DataFusion DataSets).
 
-## Large Fusions
+## Large DataFusions
 
-If the customer has a performance issue with a Fusion with a child datasource greater than five billion rows, the Adrenaline DBA team will not be able to adequately optimize it. Fusions with a child datasource smaller than five billion rows may also be difficult to optimize, based on the complexity of the Fusion and the queries. These are the reasons each of the DBA optimization methods is ineffective on large Fusions:
+If the customer has a performance issue with a DataFusion with a child DataSet greater than five billion rows, the Adrenaline DBA team will not be able to adequately optimize it. DataFusions with a child DataSet smaller than five billion rows may also be difficult to optimize, based on the complexity of the DataFusion and the queries. These are the reasons each of the DBA optimization methods is ineffective on large DataFusions:
 
 ### Live Aggregate Projections (LAPs)
 
-Live aggregate projections (LAPs) can *only* work with Fusions is if the projection includes all columns from the joins. With a multi-table fusion, the LAP is already going to be large without even adding other columns. Any query that has a column in the SELECT or WHERE clause that is not one of those join columns won't be able to use the LAP. Creating LAPs with those additional columns causes the LAPs to be so large that they don’t give a significant performance boost. The majority of queries use columns that are not join columns, so the majority of queries will not benefit from LAPs.
+Live aggregate projections (LAPs) can *only* work with DataFusions is if the projection includes all columns from the joins. With a multi-table DataFusion, the LAP is already going to be large without even adding other columns. Any query that has a column in the SELECT or WHERE clause that is not one of those join columns won't be able to use the LAP. Creating LAPs with those additional columns causes the LAPs to be so large that they don't give a significant performance boost. The majority of queries use columns that are not join columns, so the majority of queries will not benefit from LAPs.
 
 ### Materialization
 
-Materialization will only work on large Fusions if none of the tables indexes often. Materializing a table with billions of rows can take dozens of hours, so if any child table in the Fusion indexes frequently, this option won't work. Even if no datasources index often, the materialization can take so long that the customer is extremely delayed in getting up-to-date data. Another setback of materialization is that any schema changes that are made to child datasources are not propagated to materialized views. The customer would need to drop and re-add the affected datasource to the Fusion and then wait for it to rematerialize before seeing the schema changes.
+Materialization will only work on large DataFusions if none of the tables indexes often. Materializing a table with billions of rows can take dozens of hours, so if any child table in the DataFusion indexes frequently, this option won't work. Even if no DataSets index often, the materialization can take so long that the customer is extremely delayed in getting up-to-date data. Another setback of materialization is that any schema changes that are made to child DataSets are not propagated to materialized views. The customer would need to drop and re-add the affected DataSet to the DataFusion and then wait for it to rematerialize before seeing the schema changes.
 
 ### Optimized Projections
 
-Only one of the joins in a Fusion can be sped up by optimized projections, and this will only provide a marginal performance bump. This option will give maybe a 5-20% performance improvement, which will not give the performance boost needed to make queries run in under 60 seconds for multi-billion row datasources.
+Only one of the joins in a DataFusion can be sped up by optimized projections, and this will only provide a marginal performance bump. This option will give maybe a 5-20% performance improvement, which will not give the performance boost needed to make queries run in under 60 seconds for multi-billion row DataSets.
 
 ### Solutions
 
-The engineering team is working on long-term solutions to the large Fusion problem. For any customer issue related to Fusions built on a child datasource greater than five billion rows, please create a JIRA ticket and add it to epic [https://onjira.domo.com/browse/DOMO-205691](https://onjira.domo.com/browse/DOMO-205691). This is the ticket where engineering is tracking the large Fusion issue.
+The engineering team is working on long-term solutions to the large DataFusion problem. For any customer issue related to DataFusions built on a child DataSet greater than five billion rows, please create a JIRA ticket and add it to epic [https://onjira.domo.com/browse/DOMO-205691](https://onjira.domo.com/browse/DOMO-205691). This is the ticket where engineering is tracking the large DataFusion issue.
 
-Customers need to have their expectations set properly. Please inform the customer that we acknowledge that the product does not handle Fusions built on large datasources well and that we are working on long term solutions to the problem. If this isn’t made clear to the customer, they will continue to get frustrated every time they try to build a large Fusion just to find that it doesn’t work.
+Customers need to have their expectations set properly. Please inform the customer that we acknowledge that the product does not handle DataFusions built on large DataSets well and that we are working on long term solutions to the problem. If this isn't made clear to the customer, they will continue to get frustrated every time they try to build a large DataFusion just to find that it doesn't work.
 
-## Large Non-Fusion Datasources
+## Large Non-DataFusion DataSets
 
-For any large non-Fusion datasource that is having a performance issue, please check the following items before creating a new ticket for the Adrenaline DBA team.
+For any large non-DataFusion DataSet that is having a performance issue, please check the following items before creating a new ticket for the Adrenaline DBA team.
 
-- Does the datasource already have a retention window? If not, work with the customer to see if they would still have adequate data if the datasource was windowed to 30, 60, 90, or 120 days. Reducing the number of days of data held in Domo will improve performance on the datasource.
-- Is there an existing closed ticket for this datasource? If there is, please re-open that ticket instead of creating a new one. This will make it easier for the DBA team to keep track of what optimizations have been applied to which datasources, and to see why the existing optimizations did not prevent the current performance.
-- Are there specific pages and cards that are experiencing performance problems? Listing specific page and card IDs in the ticket will help to ensure that the DBA team is applying the most beneficial optimizations.
-- Does the page or card in question use a complex Beast Mode calculation? These calculations can be expensive, particularly when they are CASE statements based on a string field. If the non-performant cards use a complex Beast Mode calculation, please work with the customer to seek alternative options to the Beast Mode. If they absolutely need it, we can include the calculation in LAPs, but you need to verify with the customer that they will not change the Beast Mode. Changes to the Beast Mode calculation will cause the queries not to use the LAPs.
+- Does the DataSet already have a retention window? If not, work with the customer to see if they would still have adequate data if the DataSet was windowed to 30, 60, 90, or 120 days. Reducing the number of days of data held in Domo will improve performance on the DataSet.
+- Is there an existing closed ticket for this DataSet? If there is, please re-open that ticket instead of creating a new one. This will make it easier for the DBA team to keep track of what optimizations have been applied to which DataSets, and to see why the existing optimizations did not prevent the current performance.
+- Are there specific Dashboards and cards that are experiencing performance problems? Listing specific Dashboard and card IDs in the ticket will help to ensure that the DBA team is applying the most beneficial optimizations.
+- Does the Dashboard or card in question use a complex Beast Mode calculation? These calculations can be expensive, particularly when they are CASE statements based on a string field. If the non-performant cards use a complex Beast Mode calculation, please work with the customer to seek alternative options to the Beast Mode. If they absolutely need it, we can include the calculation in LAPs, but you need to verify with the customer that they will not change the Beast Mode. Changes to the Beast Mode calculation will cause the queries not to use the LAPs.
 
 When creating a JIRA ticket or reopening a closed ticket, please include the following details to help the Adrenaline DBAs have the best understanding of the issue possible:
 
 - Environment and Customer
-- Datasource ID
-- Page ID/card IDs
-- Retention window to be applied (if it hasn’t already been done)
+- DataSet ID
+- Dashboard ID/card IDs
+- Retention window to be applied (if it hasn't already been done)
 - Mention all members of the Adrenaline DBA team: Jeremy Knowles, David Hinckley, Curtis Green, and Ben White
 
-One of the Adrenaline DBAs will then work on the ticket, applying the best possible optimizations to the datasource. After confirming that the optimizations are effective in improving performance, the ticket will be given back to the Support team to communicate with the customer.
+One of the Adrenaline DBAs will then work on the ticket, applying the best possible optimizations to the DataSet. After confirming that the optimizations are effective in improving performance, the ticket will be given back to the Support team to communicate with the customer.
 
-If the customer continues to report poor performance after optimizations are applied you can assign the ticket back to the Adrenaline DBA team for a second review. There may be more optimizations that can help, but if not the Adrenaline DBA team will confirm this. At this point, the customer will need to make changes on their end (reducing the size of the datasource, simplifying Beast Mode calculations, etc.), because the DBA team will not be able to resolve the problem for them.
+If the customer continues to report poor performance after optimizations are applied you can assign the ticket back to the Adrenaline DBA team for a second review. There may be more optimizations that can help, but if not the Adrenaline DBA team will confirm this. At this point, the customer will need to make changes on their end (reducing the size of the DataSet, simplifying Beast Mode calculations, and other changes), because the DBA team will not be able to resolve the problem for them.

@@ -1,5 +1,6 @@
 ---
 title: "Basic Connector Troubleshooting"
+excerpt: "This article covers the foundational concepts and step-by-step approach for troubleshooting Domo Connector issues, including how to read error states, replicate problems, and escalate bugs."
 ---
 
 ## Intro
@@ -22,7 +23,7 @@ Now, whilst the customer is your top priority, remember that they are not always
     
   1. The customer may have ordered the wrong thing or did not understand the menu.  
   2. The menu could be incorrectly written.  
-  3. The waiter did not return what was expected; be it the wrong data, or it was too much for him to carry, etc.  
+  3. The waiter did not return what was expected; be it the wrong data, or it was too much for him to carry, and so on.  
     
   This scenario, though simplified, will help you narrow down where the possible issues are.
 - **Authentication (optional)**  
@@ -95,7 +96,7 @@ You do not need any of the following tools, however, they will make troubleshoot
 
   ​
 
-## Understanding Error States
+## Understand Error States
 
 1. Check the Error State by running [IDDQDomo](/s/article/360042935514).
 
@@ -337,7 +338,7 @@ The customer knows they have an ally, and we've established this isn't our fault
 
 When a program fails, typically the error includes "This stack trace may have critical information for us to help the customer further. Otherwise, development will want this on their Jiras.
 
-See [Understanding Error States](#h_93a2bc52-336d-4ada-ba6a-8be4216b2f61) for more information on how to read them.
+See [Understand Error States](#h_93a2bc52-336d-4ada-ba6a-8be4216b2f61) for more information on how to read them.
 
 1. Check the Error State by running [IDDQDomo](/s/article/360042935514).
 2. Copy the Error State JSON and paste it into your JsonViewer tool.
@@ -400,10 +401,10 @@ You need to work with the customer and get to a point of understanding what they
 
 You've now clarified the root complaint with the customer. Let's figure out where in Domo they are seeing these differing numbers. If the customer directs you to a card, ask yourself the following questions:
 
-- Is the card using a BeastMode that is using multiple and complicated functions?
+- Is the card using a Beast Mode that is using multiple and complicated functions?
 - Is the card attached to a DataFlow that is doing many transformations?
 
-Either of the two scenarios above means it may not be a connector issue. You need to look at a card that is built directly from the connector in question. The goal here is to compare the raw data. Once you find the source DataSet, take a look to see if it is doing anything silly. Silly things include:
+Either of the two scenarios above means it may not be a connector issue. You need to look at a card that is built directly from the connector in question. The goal here is to compare the raw data. After you find the source DataSet, take a look to see if it is doing anything silly. Silly things include:
 
 - Appending 30 days of data daily
 - Appending today's data multiple times a day
@@ -452,7 +453,7 @@ It may seem logical that an Admin should have access to everything, but for APIs
 - **Enterprise Connectors need you to create an app with a redirect URI.**
 - **Exact Target has permissions that have to be set up, otherwise, you'll get**"`<faultstring>User not authorized</faultstring>`".
 - **OutBrain requires you to fill out a [form](https://lp.outbrain.com/partner-api-form/) for access.**
-- **Jira on premise usually has whitelisting and we need to be added to that.**
+- **Jira on premise usually has allowlisting and we need to be added to that.**
 
 With over 500 Connectors, each connecting to a different API, there are many examples of why a user can't properly connect to their API that is not considered a bug. So, what do you do when you get a case like this?
 
@@ -462,7 +463,7 @@ Sometimes you'll find that Bob from accounting is using a different DataSet othe
 
 ### Proof of API Access
 
-Ask the user to verify their API access. This will most likely require them to contact the source system or their administrator. Check the API documentation to see if you can glean anything specific that they might need to do such as those highlighted in the [examples](#h_0ea8c693-cc46-46e0-8b3a-1361b9289540) above. Whitelisting many times is the issue. Many companies let users whitelist who can and cannot have access to the platform.
+Ask the user to verify their API access. This will most likely require them to contact the source system or their administrator. Check the API documentation to see if you can glean anything specific that they might need to do such as those highlighted in the [examples](#h_0ea8c693-cc46-46e0-8b3a-1361b9289540) above. Allowlisting many times is the issue. Many companies let users allowlist who can and cannot have access to the platform.
 
 ### Get Credentials
 
@@ -479,7 +480,7 @@ What do we do with the customer's credentials?
 - **Be patient**  
   The customer is likely frustrated. They need this working and they can feel like they are blocked from working on their task because of Domo. Let them know we will do everything in our power to help them out. Remember, they are not mad at YOU. Shrug it off and move forward to help them.
 - **Ask lots and lots of questions**  
-  Try to hone in on what their real issue is. Many times they call in complaining about a DataSet being wrong, but after asking enough questions, we find that is is a card, and investigating further, their BeastMode is the culprit. It could even start as a card issue but after further questions, it leads back to the DataSet.  
+  Try to hone in on what their real issue is. Many times they call in complaining about a DataSet being wrong, but after asking enough questions, we find that is is a card, and investigating further, their Beast Mode is the culprit. It could even start as a card issue but after further questions, it leads back to the DataSet.  
     
   Ask questions such as:  
     
@@ -489,4 +490,4 @@ What do we do with the customer's credentials?
 
 ​​​​​​This may seem consultative, but this information can help better diagnose the issue they are having.
 
-Lastly, here is a random inspirational [video](https://www.youtube.com/watch?v=d6wRkzCW5qI) courtesy of Ryan!
+Lastly, here is a random inspirational [video](https://www.youtube.com/watch?v=d6wRkzCW5qI) courtesy of Ryan.

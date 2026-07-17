@@ -1,8 +1,9 @@
 ---
 title: "Recursive Webforms V.1"
+excerpt: "This article explains how to set up a recursive Webform that combines DataFlow transformations with manual DataSet updates in Domo."
 ---
 
-<Warning>**Important:** This topic is for INTERNAL USE ONLY. Do NOT share any of the content in this page with customers!</Warning>
+<Warning>**Important:** This topic is for INTERNAL USE ONLY. Do NOT share any of the content in this page with customers.</Warning>
 
 ## When would I want to use Recursive Webforms?
 
@@ -17,7 +18,7 @@ We’ll use the example described above to help demonstrate how to set up a Webf
 <Note>**Note:** The “?\_f=dataflows” feature switch must be enabled in the Domo instance for you to proceed.</Note>
 
 1. Create a new MySQL DataFlow.
-2. Add the SFDC lead dataset as an input.
+2. Add the SFDC lead DataSet as an input.
 3. Create a new transform with the code below. Name the output “all\_countries.”
 
 `SELECT DISTINCT`
@@ -36,10 +37,10 @@ We’ll use the example described above to help demonstrate how to set up a Webf
 
 1. Click **Dev Tools** in the top right to edit the JSON. This is where you tell the DataFlow to change the type of data for the output.
 2. Scroll toward the bottom of the code and look for the output section. It will have the same name you gave it in the previous step, and you will see the “SELECT \* FROM all\_countries” query.
-3. Once you have found the output, you will notice that the type is set as “Dataflow.” Change this to “Webform” instead.
+3. After you have found the output, you will notice that the type is set as “DataFlow.” Change this to “Webform” instead.
 4. Click Apply Source in the top right corner of the window. Now you will notice that your output will show the Webform icon instead of the DataFlow icon.
 5. Save and run your DataFlow.
-6. Once it is complete, reopen the DataFlow.
+6. After it is complete, reopen the DataFlow.
 7. Now you will need to add a new input DataSet. Select the DataSet that is the output of this DataFlow.  Using the output as an input is what makes this recursive.
 8. Edit the “all countries” transform and change the code to this.
 

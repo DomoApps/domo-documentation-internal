@@ -1,8 +1,9 @@
 ---
 title: "IDDQ Domo Tool"
+excerpt: "This article covers how to use the IDDQDomo Chrome extension to run DataFlow transforms, debug connector errors, and copy single-connector configurations."
 ---
 
-<Warning>**Important:** This topic is for INTERNAL USE ONLY. Do NOT share any of the content in this page with customers!</Warning>
+<Warning>**Important:** This topic is for INTERNAL USE ONLY. Do NOT share any of the content in this page with customers.</Warning>
 
 ## Intro
 
@@ -13,12 +14,12 @@ This tool was developed by Ryan Bullock. If you run into any issues or have ques
 ## Use Cases
 
 - You are working on a connector and get a fail message or Domo internal error. Open the IDDQDomo extension. A pop-up opens in a new window and gives you the straight JSON content of the actual error. If you're aware of what you are looking for, you can scroll down, identify the problem, and fix the error.
-- You are unsure what connector version you are using, so you can use the extension and select **Get Version** and see what version you’re working in and whether or not it needs to be updated.
-- You’re running transforms in a DataFlow. The extension goes through and runs each transform in order so you don't have to go through them manually.
+- You are unsure what connector version you are using, so you can use the extension and select **Get Version** and see what version you're working in and whether or not it needs to be updated.
+- You're running transforms in a DataFlow. The extension goes through and runs each transform in order so you don't have to go through them manually.
 
-## Accessing IDDQDomo
+## Access IDDQDomo
 
-By default, the VCR (Amazon workspace — Virtual Clean Room) has the IDDQ Chrome extension installed already.
+By default, the VCR (Amazon workspace—Virtual Clean Room) has the IDDQ Chrome extension installed already.
 
 If you want access to the IDDQDomo Chrome extension, you can request it here:
 
@@ -26,7 +27,7 @@ If you want access to the IDDQDomo Chrome extension, you can request it here:
 
 Please include your first name and last name in the request if your email address isn't obvious. We want to make sure this stays only with Domo Employees.
 
-Once accepted you can download the extension from the Chrome Store. There is a link in the group. Or you can use this one:
+After you are accepted, you can download the extension from the Chrome Store. There is a link in the group. Or you can use this one:
 
 [https://chrome.google.com/webstore/detail/10-iddqdomo-beta/ikpbcgpokddcinanlpfladpahkdhiojc](https://chrome.google.com/webstore/detail/10-iddqdomo-beta/ikpbcgpokddcinanlpfladpahkdhiojc)
 
@@ -41,7 +42,7 @@ This was set up so your browser automatically downloads updates to the Google St
 
 ### Connector Functions
 
-ALL functions must be done on the **Connector** page--you will get an error otherwise.
+ALL functions must be done on the **Connector** page—you will get an error otherwise.
 
 Example connector (please do not change):
 
@@ -57,15 +58,15 @@ This opens a pop-up window showing you the version of the connector you are on (
 
 #### Clone
 
-This looks at the connector you are currently on and brings up a new window of a new DataSet for that same connector. So in the example above, it would bring you to a new LinkedIn connector for you to set up, etc.
+This looks at the connector you are currently on and brings up a new window of a new DataSet for that same connector. So in the example above, it would bring you to a new LinkedIn connector for you to set up, and so on.
 
 #### Import
 
-This opens a new window with the IMPORT state of the connector. This state shows things like connector version, its metadata (what it's selecting, etc). This is more for bugs / debugging.
+This opens a new window with the IMPORT state of the connector. This state shows things like connector version, its metadata (what it's selecting, and similar details). This is more for bugs / debugging.
 
 #### All MetaData
 
-This will take you to a page giving a more detailed list of the metadata for the connector. This list includes all the columns on the DataSet, all the cards w/ KPI IDs, all Beast Modes, etc. A pop-up window also appears to briefly explain what's there.
+This will take you to a page giving a more detailed list of the metadata for the connector. This list includes all the columns on the DataSet, all the cards w/ KPI IDs, all Beast Modes, and so on. A pop-up window also appears to briefly explain what's there.
 
 #### JIRA ECs
 
@@ -75,9 +76,9 @@ This will look up JIRA tickets regarding the connector you are looking at.
 
 #### Run All Transform
 
-You will need to be currently "editing" the DataFlow to run this. This function runs each transform one by one and then notifies you when they are done. This notification includes which transforms were run and the status they returned with. 200 means successful. 400, 500, etc. mean failures.
+You will need to be currently "editing" the DataFlow to run this. This function runs each transform one by one and then notifies you when they are done. This notification includes which transforms were run and the status they returned with. 200 means successful. 400, 500, and similar codes mean failures.
 
-When you run the function, it asks for the DataBase ID. This is the ID near the top, right next to the dropdown specifying which DataFlow type (myself, RedShift). It will start with dataflow\_.  Copy this and paste it into the popup window. It will then run after you click OK.
+When you run the function, it asks for the DataBase ID. This is the ID near the top, right next to the dropdown specifying which DataFlow type (myself, RedShift). It will start with dataflow\_.  Copy this and paste it into the popup window. It will then run after you click OK.
 
 <Note>**Note:** This pulls only the most recently SAVED data, meaning if you are just creating the DataFlow or have made any edits, you will need to SAVE it, re-open it and then you can use it.</Note>
 
@@ -96,12 +97,12 @@ When the window pops up, click on it and hit CTRL + C. This copies the ENTIRE wi
 Very minor changes this release:
 
 - Fixed authentication issues for the "Run All Transforms" functionality.  
-   I had hard-coded in [support.domo.com](http://support.domo.com/) for the authentication. I blame late-night coding and getting it ready for QBR.
+   I had hard-coded in [support.domo.com](http://support.domo.com/) for the authentication. I blame late-night coding and getting it ready for QBR.
 - Changed the naming of the extension.  
-   The name is still up in the air--given it's beta it hasn't been set in stone. The name itself came from a cheat code in Doom95. Said code gave you invincibility. This extension also makes you invincible!
+   The name is still up in the air—given it's beta it hasn't been set in stone. The name itself came from a cheat code in Doom95. Said code gave you invincibility. This extension also makes you invincible.
 
 ## Future Releases
 
 The next release will include some card functionality and some refactoring of the connector section.
 
-Again, please contact Ryan Bullock if you run into any bugs or have any questions!
+Again, please contact Ryan Bullock if you run into any bugs or have any questions.
