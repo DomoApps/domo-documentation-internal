@@ -1,4 +1,5 @@
 .DS_Store
 .env
+*.zip
 scripts/__pycache__/
 scripts/articleUpdateMigration/
